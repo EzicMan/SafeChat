@@ -265,7 +265,7 @@ const int BigSmoke::size() const {
 	return number.size();
 }
 
-const bool BigSmoke::znak() const {
+const bool BigSmoke::isNegative() const {
 	return negative;
 }
 
@@ -333,7 +333,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 	int size1 = this->size();
 	int size2 = right.size();
-	if (right.znak()) {
+	if (right.isNegative()) {
 		this->negative = !this->negative;
 	}
 	BigSmoke newNum = 0;
@@ -411,7 +411,7 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right) {
 BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 	int size1 = this->size();
 	int size2 = right.size();
-	if (right.znak()) {
+	if (right.isNegative()) {
 		this->negative = !this->negative;
 	}
 	if (right == 0) {
@@ -570,7 +570,7 @@ bool BigSmoke::operator<=(const BigSmoke& right) const {
 
 std::ostream& operator<<(std::ostream& os, const BigSmoke& r)
 {
-	if (r.znak()) {
+	if (r.isNegative()) {
 		os << "-";
 	}
 	os << reverser(r.toString()).getCharAr();

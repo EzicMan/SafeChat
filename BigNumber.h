@@ -45,7 +45,7 @@ public:
 	String toString() const; //convert number to string and returns it
 	const long long toNum() const; // converts number to long long and returns it
 	const int size() const; // returns size of the number
-	const bool znak() const; // returns true if number negative or false if positive
+	const bool isNegative() const; // returns true if number negative or false if positive
 	void normalize(); // deletes all non-meaningfull zeros from the number
 	// basic operators
 	BigSmoke& operator+=(const BigSmoke& right);
