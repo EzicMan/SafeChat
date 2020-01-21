@@ -50,6 +50,10 @@ public:
 	void normalize(); // deletes all non-meaningfull zeros from the number
 	// basic operators
 	BigSmoke& operator+=(const BigSmoke& right);
+	BigSmoke& operator++();
+	BigSmoke& operator--();
+	BigSmoke& operator++(int);
+	BigSmoke& operator--(int);
 	BigSmoke& operator*=(const BigSmoke& right);
 	BigSmoke& operator-=(const BigSmoke& right);
 	BigSmoke& operator/=(const BigSmoke& right);

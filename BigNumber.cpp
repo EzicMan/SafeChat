@@ -373,6 +373,32 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right)
 	return *this;
 }
 
+BigSmoke& BigSmoke::operator++()
+{
+	*this += 1;
+	return *this;
+}
+
+BigSmoke& BigSmoke::operator--()
+{
+	*this -= 1;
+	return *this;
+}
+
+BigSmoke& BigSmoke::operator++(int a)
+{
+	BigSmoke b = *this;
+	++(*this);
+	return b;
+}
+
+BigSmoke& BigSmoke::operator--(int a)
+{
+	BigSmoke b = *this;
+	--(*this);
+	return b;
+}
+
 BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 {
 	int size1 = this->size();
