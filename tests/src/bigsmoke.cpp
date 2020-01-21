@@ -314,7 +314,7 @@ TEST_CASE("increment suffix and prefix -- ++", "[bigsmoke]") {
     REQUIRE(a == 12);
     REQUIRE_FALSE(a.isNegative());
 
-    BigSmoke a = -10;
+    a = -10;
     a++;
     REQUIRE(a == -9);
     REQUIRE(a.isNegative());
@@ -337,7 +337,7 @@ TEST_CASE("decrement suffix and prefix -- --", "[bigsmoke]") {
     REQUIRE(a == 8);
     REQUIRE_FALSE(a.isNegative());
 
-    BigSmoke a = -10;
+    a = -10;
     a--;
     REQUIRE(a == -11);
     REQUIRE(a.isNegative());
