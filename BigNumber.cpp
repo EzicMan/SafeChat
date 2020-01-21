@@ -289,7 +289,11 @@ BigSmoke::BigSmoke(const long long a)
 
 String BigSmoke::toString() const
 {
-	return number.reverse();
+	String ans = number;
+	if (negative) {
+		ans += '-';
+	}
+	return ans.reverse();
 }
 
 BigSmoke BigSmoke::abs() const
