@@ -54,6 +54,8 @@ public:
 	BigSmoke& operator-=(const BigSmoke& right);
 	BigSmoke& operator/=(const BigSmoke& right);
 	BigSmoke& operator%=(const BigSmoke& right);
+	BigSmoke operator-() const;
+	BigSmoke operator+() const;
 	friend BigSmoke operator+(const BigSmoke& left, const BigSmoke& right);
 	friend BigSmoke operator*(const BigSmoke& left, const BigSmoke& right);
 	friend BigSmoke operator/(const BigSmoke& left, const BigSmoke& right);

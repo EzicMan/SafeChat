@@ -236,9 +236,14 @@ BigSmoke::BigSmoke(const String a) {
 		if (a[0] == '-') {
 			negative = true;
 			number = a.substring(1, a.size()).reverse();
+			this->normalize();
+			if (number == "0") {
+				negative = false;
+			}
 		}
 		else {
 			number = a.reverse();
+			this->normalize();
 		}
 	}
 }
@@ -454,7 +459,12 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 		for (; i < newNum.size(); i++) {
 			a += newNum.number.reverse()[i];
 		}
+		temp = a;
+		if (temp == 0 && a.size() != 1) {
+			ans += String("0") * (a.size() - 1);
+		}
 		newNum.number = a.reverse();
+		newNum.normalize();
 	}
 	number = ans.reverse();
 	if (negative && newNum != 0) {
@@ -467,6 +477,17 @@ BigSmoke& BigSmoke::operator%=(const BigSmoke& right) {
 	BigSmoke temp = *this / right;
 	temp *= right;
 	*this -= temp;
+	return *this;
+}
+
+BigSmoke BigSmoke::operator-() const{
+	BigSmoke a;
+	a.number = number;
+	a.negative = !negative;
+	return a;
+}
+
+BigSmoke BigSmoke::operator+() const{
 	return *this;
 }
 
@@ -506,6 +527,9 @@ BigSmoke operator-(const BigSmoke& left, const BigSmoke& right) {
 }
 
 bool BigSmoke::operator==(const BigSmoke& right) const {
+	if (number == "0" && right.number == "0") {
+		return true;
+	}
 	if (number == right.number && negative == right.negative) {
 		return true;
 	}
