@@ -21,7 +21,9 @@ target_include_directories( safechat PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/.." )
 # Tests
 add_executable( safechat_tests
 	src/main.cpp
+	src/catch.hpp
 	src/string.cpp
+	src/bigsmoke.cpp
 )
 
 target_link_libraries( safechat_tests
