@@ -300,3 +300,49 @@ TEST_CASE("unary operators -- +, -", "[bigsmoke]") {
     REQUIRE(a == 10);
     REQUIRE_FALSE(a.isNegative());
 }
+
+TEST_CASE("increment suffix and prefix -- ++", "[bigsmoke]") {
+    BigSmoke a = 10;
+    REQUIRE(a == 10);
+    REQUIRE_FALSE(a.isNegative());
+
+    a++;
+    REQUIRE(a == 11);
+    REQUIRE_FALSE(a.isNegative());
+
+    ++a;
+    REQUIRE(a == 12);
+    REQUIRE_FALSE(a.isNegative());
+
+    BigSmoke a = -10;
+    a++;
+    REQUIRE(a == -9);
+    REQUIRE(a.isNegative());
+
+    ++a;
+    REQUIRE(a == -8);
+    REQUIRE(a.isNegative());
+}
+
+TEST_CASE("decrement suffix and prefix -- --", "[bigsmoke]") {
+    BigSmoke a = 10;
+    REQUIRE(a == 10);
+    REQUIRE_FALSE(a.isNegative());
+
+    a--;
+    REQUIRE(a == 9);
+    REQUIRE_FALSE(a.isNegative());
+
+    --a;
+    REQUIRE(a == 8);
+    REQUIRE_FALSE(a.isNegative());
+
+    BigSmoke a = -10;
+    a--;
+    REQUIRE(a == -11);
+    REQUIRE(a.isNegative());
+
+    --a;
+    REQUIRE(a == -12);
+    REQUIRE(a.isNegative());
+}
