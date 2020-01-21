@@ -284,7 +284,7 @@ TEST_CASE("division remainder -- %, %/", "[bigsmoke]") {
 }
 
 TEST_CASE("unary operators -- +, -", "[bigsmoke]") {
-    BigSmoke a = "10";
+    BigSmoke a = 10;
     REQUIRE(a == 10);
     REQUIRE_FALSE(a.isNegative());
 
