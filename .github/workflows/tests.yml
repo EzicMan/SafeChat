@@ -1,0 +1,22 @@
+name: Tests
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build tests with CMake
+      run: |
+        cd tests
+        mkdir _build
+        cd _build
+        cmake ..
+        make -j2
+        
+    - name: Run tests
+      run: |
+        ./safechat_tests
