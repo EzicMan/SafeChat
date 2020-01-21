@@ -1,5 +1,8 @@
-#include <algorithm>
 #include "BigNumber.h"
+
+long long Max(long long a, long long b) {
+	return a > b ? a : b;
+}
 
 //-----------------------------------------------------
 // String
@@ -218,7 +221,7 @@ BigSmoke::BigSmoke(const String a) {
 	else {
 		for (int i = 0; i < a.size(); i++) {
 			if ((a[i] < '0' || a[i] > '9') && a[i] != '-') {
-				throw std::invalid_argument("string contains invalid chars");
+				throw std::bad_cast();
 			}
 		}
 		if (a[0] == '-') {
@@ -309,7 +312,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 		negative = ans.negative;
 		return *this;
 	}
-	String newNum = String("0") * std::max(size1, size2);
+	String newNum = String("0") * Max(size1, size2);
 	int ost = 0;
 	for (int i = 0; i < newNum.size(); i++) {
 		int cur1 = 0, cur2 = 0, sum = 0;
