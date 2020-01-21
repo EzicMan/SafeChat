@@ -375,6 +375,9 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 	}
 	newNum.normalize();
 	number = newNum.number;
+	if (number == "0") {
+		negative = false;
+	}
 	return *this;
 }
 
