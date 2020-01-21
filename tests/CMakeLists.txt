@@ -1,6 +1,13 @@
 cmake_minimum_required( VERSION 3.5.2 )
 project( SafeChat_Tests )
 
+# Sanitizers
+if( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU" )
+	set( CMAKE_C_FLAGS	"${CMAKE_C_FLAGS} -fsanitize=address,undefined" )
+	set( CMAKE_C_FLAGS	"${CMAKE_C_FLAGS} -fsanitize=address,undefined" )
+	set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=address,undefined" )
+endif()
+
 # libsafechat
 set( LIBSAFECHAT_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/../BigNumber.h"
