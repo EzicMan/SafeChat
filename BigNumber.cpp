@@ -159,12 +159,10 @@ String operator+(const String& left, const String& right) {
 
 char& String::operator[](int index) const {
 	if (index >= sSize) {
-		perror("Getting out of array!");
-		exit(1);
+		throw std::out_of_range("Invalid index");
 	}
 	else if (index < 0) {
-		perror("Getting out of array!");
-		exit(1);
+		throw std::out_of_range("Invalid index");
 	}
 	return string[index];
 }
@@ -218,8 +216,7 @@ BigSmoke::BigSmoke(const String a) {
 	else {
 		for (int i = 0; i < a.size(); i++) {
 			if ((a[i] < '0' || a[i] > '9') && a[i] != '-') {
-				perror("Assigning string to a number");
-				exit(1);
+				throw std::bad_cast();
 			}
 		}
 		if (a[0] == '-') {
@@ -415,8 +412,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 		this->negative = !this->negative;
 	}
 	if (right == 0) {
-		perror("Divide by zero");
-		exit(1);
+		throw std::runtime_error("Division by zero");
 	}
 	if (size1 < size2) {
 		number = "0";
