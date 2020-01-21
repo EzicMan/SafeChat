@@ -42,6 +42,7 @@ public:
 	BigSmoke(const String a);
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
+	BigSmoke abs() const; //returns absolute value of number
 	const long long toNum() const; // converts number to long long and returns it
 	const int size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive

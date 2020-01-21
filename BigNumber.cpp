@@ -260,6 +260,13 @@ const long long BigSmoke::toNum() const {
 	return ans;
 }
 
+BigSmoke BigSmoke::abs() const {
+	BigSmoke a;
+	a.number = this->number;
+	a.negative = false;
+	return a;
+}
+
 const int BigSmoke::size() const {
 	return number.size();
 }
@@ -421,21 +428,22 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 		negative = false;
 		return *this;
 	}
+	BigSmoke divBy = right.abs();
 	BigSmoke newNum = number.reverse();
 	String ans = "";
 	while (newNum.size() > size2) {
 		int i = 0;
 		String a = "";
-		while (BigSmoke(a) < BigSmoke(right.number.reverse())) {
+		while (BigSmoke(a) < divBy) {
 			a += newNum.number.reverse()[i];
 			i++;
 		}
 		BigSmoke temp = 0;
 		for (int j = 0; j < 10; j++) {
-			temp = BigSmoke(right.number.reverse()) * j;
+			temp = divBy * j;
 			if (temp > BigSmoke(a)) {
 				ans += j - 1 + '0';
-				temp = BigSmoke(right.number.reverse()) * (j - 1);
+				temp = divBy * (j - 1);
 				break;
 			}
 		}
