@@ -26,8 +26,8 @@ TEST_CASE("BigSmoke constructors", "[bigsmoke]") {
         REQUIRE_THROWS_AS(BigSmoke("-12fg34"), std::invalid_argument);
         REQUIRE_THROWS_AS(BigSmoke("-12-34"), std::invalid_argument);
 
-        /*BigSmoke a4("001234");
-        REQUIRE(a4 == 1234);*/
+        BigSmoke a4("001234");
+        REQUIRE(a4 == 1234);
     }
 
     SECTION("long long constructor") {
@@ -48,7 +48,7 @@ TEST_CASE("BigSmoke constructors", "[bigsmoke]") {
     }
 }
 
-/*TEST_CASE("string conversion", "[bigsmoke]") {
+TEST_CASE("string conversion", "[bigsmoke]") {
     BigSmoke a;
     REQUIRE(a.toString() == "0");
 
@@ -57,7 +57,7 @@ TEST_CASE("BigSmoke constructors", "[bigsmoke]") {
 
     a = BigSmoke("-1234");
     REQUIRE(a.toString() == "-1234");
-}*/
+}
 
 TEST_CASE("abs", "[bigsmoke]") {
     BigSmoke a(0);
