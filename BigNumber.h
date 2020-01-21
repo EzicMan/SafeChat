@@ -40,6 +40,7 @@ public:
 	//constructors
 	BigSmoke();
 	BigSmoke(const BigSmoke& a);
+	BigSmoke(const String a);
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
 	const long long toNum() const; // converts number to long long and returns it
