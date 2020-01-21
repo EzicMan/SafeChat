@@ -236,9 +236,14 @@ BigSmoke::BigSmoke(const String a) {
 		if (a[0] == '-') {
 			negative = true;
 			number = a.substring(1, a.size()).reverse();
+			this->normalize();
+			if (number == "0") {
+				negative = false;
+			}
 		}
 		else {
 			number = a.reverse();
+			this->normalize();
 		}
 	}
 }
@@ -259,17 +264,7 @@ BigSmoke::BigSmoke(const long long a) {
 }
 
 String BigSmoke::toString() const {
-	return number;
-}
-
-const long long BigSmoke::toNum() const {
-	long long ten = 1;
-	long long ans = 0;
-	for (int i = 0; i < this->size(); i++) {
-		ans += (this->toString()[i] - '0') * ten;
-		ten *= 10;
-	}
-	return ans;
+	return number.reverse();
 }
 
 BigSmoke BigSmoke::abs() const {
@@ -335,7 +330,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 			cur2 = 0;
 		}
 		else {
-			cur2 = right.toString()[i] - '0';
+			cur2 = right.number[i] - '0';
 		}
 		sum = cur1 + cur2 + ost;
 		newNum[i] = sum % 10 + '0';
@@ -351,7 +346,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 	int size1 = this->size();
 	int size2 = right.size();
-	if (right.isNegative()) {
+	if (right.negative) {
 		this->negative = !this->negative;
 	}
 	BigSmoke newNum = 0;
@@ -366,7 +361,7 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 			curstate = "";
 		}
 		for (int j = 0; j < size1; j++) {
-			int num = (number[j] - '0') * (right.toString()[i] - '0');
+			int num = (number[j] - '0') * (right.number[i] - '0');
 			num += ost;
 			ost = num / 10;
 			num %= 10;
@@ -379,7 +374,7 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 		zeros++;
 	}
 	newNum.normalize();
-	number = newNum.toString();
+	number = newNum.number;
 	return *this;
 }
 
@@ -422,14 +417,14 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right) {
 	}
 	BigSmoke newNum = ans.reverse();
 	newNum.normalize();
-	number = newNum.toString();
+	number = newNum.number;
 	return *this;
 }
 
 BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 	int size1 = this->size();
 	int size2 = right.size();
-	if (right.isNegative()) {
+	if (right.negative) {
 		this->negative = !this->negative;
 	}
 	if (right == 0) {
@@ -464,7 +459,12 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 		for (; i < newNum.size(); i++) {
 			a += newNum.number.reverse()[i];
 		}
+		temp = a;
+		if (temp == 0 && a.size() != 1) {
+			ans += String("0") * (a.size() - 1);
+		}
 		newNum.number = a.reverse();
+		newNum.normalize();
 	}
 	number = ans.reverse();
 	if (negative && newNum != 0) {
@@ -477,6 +477,17 @@ BigSmoke& BigSmoke::operator%=(const BigSmoke& right) {
 	BigSmoke temp = *this / right;
 	temp *= right;
 	*this -= temp;
+	return *this;
+}
+
+BigSmoke BigSmoke::operator-() const{
+	BigSmoke a;
+	a.number = number;
+	a.negative = !negative;
+	return a;
+}
+
+BigSmoke BigSmoke::operator+() const{
 	return *this;
 }
 
@@ -516,6 +527,9 @@ BigSmoke operator-(const BigSmoke& left, const BigSmoke& right) {
 }
 
 bool BigSmoke::operator==(const BigSmoke& right) const {
+	if (number == "0" && right.number == "0") {
+		return true;
+	}
 	if (number == right.number && negative == right.negative) {
 		return true;
 	}
@@ -588,9 +602,9 @@ bool BigSmoke::operator<=(const BigSmoke& right) const {
 
 std::ostream& operator<<(std::ostream& os, const BigSmoke& r)
 {
-	if (r.isNegative()) {
+	if (r.negative) {
 		os << "-";
 	}
-	os << r.toString().reverse().getCharAr();
+	os << r.number.reverse().getCharAr();
 	return os;
 }

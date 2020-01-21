@@ -45,7 +45,6 @@ public:
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
 	BigSmoke abs() const; //returns absolute value of number
-	const long long toNum() const; // converts number to long long and returns it
 	const int size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive
 	void normalize(); // deletes all non-meaningfull zeros from the number
@@ -55,6 +54,8 @@ public:
 	BigSmoke& operator-=(const BigSmoke& right);
 	BigSmoke& operator/=(const BigSmoke& right);
 	BigSmoke& operator%=(const BigSmoke& right);
+	BigSmoke operator-() const;
+	BigSmoke operator+() const;
 	friend BigSmoke operator+(const BigSmoke& left, const BigSmoke& right);
 	friend BigSmoke operator*(const BigSmoke& left, const BigSmoke& right);
 	friend BigSmoke operator/(const BigSmoke& left, const BigSmoke& right);
