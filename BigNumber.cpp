@@ -225,8 +225,11 @@ BigSmoke::BigSmoke(const String a) {
 		number = "0";
 	}
 	else {
+		if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
+			throw std::invalid_argument("string contains invalid chars");
+		}
 		for (int i = 0; i < a.size(); i++) {
-			if ((a[i] < '0' || a[i] > '9') && a[i] != '-') {
+			if (i != 0 && (a[i] < '0' || a[i] > '9')) {
 				throw std::invalid_argument("string contains invalid chars");
 			}
 		}
