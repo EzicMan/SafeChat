@@ -454,11 +454,12 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right)
 	String ans = "";
 	int i;
 	for (i = 0; i < right.size(); i++) {
-		if (number[i] < right.number[i]) {
+		if ((number[i] - ost) < right.number[i]) {
 			ans += number[i] + 10 - ost - right.number[i] + '0';
 			ost = 1;
 		} else {
-			ans += number[i] - right.number[i] + '0';
+			ans += number[i] - ost - right.number[i] + '0';
+			ost = 0;
 		}
 	}
 	while (i < this->size()) {
@@ -494,38 +495,39 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 		return *this;
 	}
 	BigSmoke divBy = right.abs();
-	BigSmoke newNum = number.reverse();
 	String ans = "";
-	while (newNum >= divBy) {
-		int i = 0;
-		String a = "";
-		while (BigSmoke(a) < divBy) {
-			a += newNum.number.reverse()[i];
+	int k = 0;
+	String ost = "";
+	int i = 0;
+	int z = 0;
+	while (i < number.size()) {
+		while (BigSmoke(ost) < divBy && i < number.size()) {
+			ost += number.reverse()[i];
 			i++;
+			z++;
 		}
+		if (BigSmoke(ost) < divBy) {
+			ans += String("0") * z;
+			break;
+		}
+		if (ans != "") {
+			ans += String("0") * (z - 1);
+		}
+		z = 0;
 		BigSmoke temp = 0;
 		for (int j = 0; j <= 10; j++) {
 			temp = divBy * j;
-			if (temp > BigSmoke(a)) {
+			if (temp > BigSmoke(ost)) {
 				ans += j - 1 + '0';
 				temp = divBy * (j - 1);
 				break;
 			}
 		}
-		temp = BigSmoke(a) - temp;
-		a = temp.number.reverse();
-		for (; i < newNum.size(); i++) {
-			a += newNum.number.reverse()[i];
-		}
-		temp = a;
-		if (temp == 0 && a.size() != 1) {
-			ans += String("0") * (a.size() - 1);
-		}
-		newNum.number = a.reverse();
-		newNum.normalize();
+		temp = BigSmoke(ost) - temp;
+		ost = temp.number.reverse();
 	}
 	number = ans.reverse();
-	if (negative && newNum != 0) {
+	if (negative && BigSmoke(ost) != 0) {
 		*this -= 1;
 	}
 	return *this;

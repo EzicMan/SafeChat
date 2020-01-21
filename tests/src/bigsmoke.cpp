@@ -240,6 +240,30 @@ TEST_CASE("division -- /, /=", "[bigsmoke]") {
         REQUIRE(b == 3);
         REQUIRE(a == b);
     }
+    SECTION("636 / 6 = 106"){
+    	a = 636;
+    	a /= 6;
+    	REQUIRE(a == 106);
+
+    	a = 6360;
+    	a /= 6;
+    	REQUIRE(a == 1060);
+    }
+    SECTION("6478 / 647 = 10"){
+    	a = 6478;
+    	a /= 647;
+    	REQUIRE(a == 10);
+    }
+    SECTION("78459 / 78 = 1005"){
+    	a = 78459;
+    	a /= 78;
+    	REQUIRE(a == 1005);
+    }
+    SECTION("6800010100 / 68 = 100000148"){
+    	a = 6800010100;
+    	a /= 68;
+    	REQUIRE(a == 100000148);
+    }
 }
 
 TEST_CASE("division remainder -- %, %/", "[bigsmoke]") {
@@ -280,6 +304,11 @@ TEST_CASE("division remainder -- %, %/", "[bigsmoke]") {
 
         REQUIRE_THROWS_AS(a % 0, std::runtime_error);
         REQUIRE_THROWS_AS(a %= 0, std::runtime_error);
+    }
+    SECTION("BIG F*CKING NUMBER"){
+    	a = String("3") * 300;
+    	a %= 3783;
+    	REQUIRE(a == 663);
     }
 }
 
