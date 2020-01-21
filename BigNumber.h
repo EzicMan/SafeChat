@@ -17,6 +17,7 @@ public:
 	const char* end() const; // returns pointer to the end of the string
 	const char* getCharAr() const; // converts string to char array and returns it
 	String substring(int sindex, int eindex) const; // gets the substring [sindex;eindex)
+	String reverse() const; // reverses the string
 	//basic operators
 	String& operator+=(const String& right);
 	String& operator=(const String& right);
@@ -30,8 +31,6 @@ public:
 	friend std::ostream& operator<<(std::ostream& os, const String& r);
 	friend std::istream& operator>>(std::istream& is, String& r);
 };
-
-String reverser(String a); // reverses the string
 
 class BigSmoke {
 	String number; // the number itself(CONTAINED BACKWARDS!)
