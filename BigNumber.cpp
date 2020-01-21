@@ -1,20 +1,23 @@
-#include <cstring>
 #include "BigNumber.h"
+#include <cstring>
 
-long long Max(long long a, long long b) {
+long long Max(long long a, long long b)
+{
 	return a > b ? a : b;
 }
 
 //-----------------------------------------------------
 // String
 //-----------------------------------------------------
-String::String() {
+String::String()
+{
 	string = new char[1];
 	string[0] = '\0';
 	sSize = 0;
 }
 
-String::String(char* a) {
+String::String(char* a)
+{
 	int i = 0;
 	int n = 0;
 	while (true) {
@@ -29,7 +32,8 @@ String::String(char* a) {
 	memcpy(string, a, sSize + 1);
 }
 
-String::String(const char* a) {
+String::String(const char* a)
+{
 	int i = 0;
 	int n = 0;
 	while (true) {
@@ -44,41 +48,49 @@ String::String(const char* a) {
 	memcpy(string, a, sSize + 1);
 }
 
-String::String(char a) {
+String::String(char a)
+{
 	string = new char[2];
 	string[0] = a;
 	string[1] = '\0';
 	sSize = 1;
 }
 
-String::String(const String& a) {
+String::String(const String& a)
+{
 	sSize = a.size();
 	const char* b = a.getCharAr();
 	string = new char[sSize + 1];
 	memcpy(string, b, sSize + 1);
 }
 
-String::~String() {
+String::~String()
+{
 	delete[] string;
 }
 
-const int String::size() const {
+const int String::size() const
+{
 	return sSize;
 }
 
-const char*String::begin() const {
+const char* String::begin() const
+{
 	return string;
 }
 
-const char*String::end() const {
+const char* String::end() const
+{
 	return (string + sSize);
 }
 
-const char*String::getCharAr() const {
+const char* String::getCharAr() const
+{
 	return string;
 }
 
-String String::substring(int sindex, int eindex) const {
+String String::substring(int sindex, int eindex) const
+{
 	String ans = "";
 	for (int i = sindex; i < eindex; i++) {
 		ans += string[i];
@@ -95,7 +107,8 @@ String String::reverse() const
 	return b;
 }
 
-String&String::operator+=(const String& right) {
+String& String::operator+=(const String& right)
+{
 	const char* a = right.getCharAr();
 	const int aSize = right.size();
 	char* oldString = string;
@@ -109,7 +122,8 @@ String&String::operator+=(const String& right) {
 	return *this;
 }
 
-String& String::operator=(const String& right) {
+String& String::operator=(const String& right)
+{
 	const char* a = right.getCharAr();
 	const int aSize = right.size();
 	char* oldString = string;
@@ -120,7 +134,8 @@ String& String::operator=(const String& right) {
 	return *this;
 }
 
-bool String::operator==(const String& right) const {
+bool String::operator==(const String& right) const
+{
 	if (right.size() != this->size()) {
 		return false;
 	}
@@ -132,14 +147,16 @@ bool String::operator==(const String& right) const {
 	return true;
 }
 
-bool String::operator!=(const String& right) const {
+bool String::operator!=(const String& right) const
+{
 	if (*this == right) {
 		return false;
 	}
 	return true;
 }
 
-String& String::operator*=(int times) {
+String& String::operator*=(int times)
+{
 	if (times < 0) {
 		throw std::invalid_argument("Can't multiply by negative numbers");
 	}
@@ -156,32 +173,35 @@ String& String::operator*=(int times) {
 	return *this;
 }
 
-String operator*(const String& left, int times) {
+String operator*(const String& left, int times)
+{
 	String c;
 	c += left;
 	c *= times;
 	return c;
 }
 
-String operator*(int times, const String& left) {
+String operator*(int times, const String& left)
+{
 	String c;
 	c += left;
 	c *= times;
 	return c;
 }
 
-String operator+(const String& left, const String& right) {
+String operator+(const String& left, const String& right)
+{
 	String c;
 	c += left;
 	c += right;
 	return c;
 }
 
-char& String::operator[](int index) const {
+char& String::operator[](int index) const
+{
 	if (index >= sSize) {
 		throw std::out_of_range("Invalid index");
-	}
-	else if (index < 0) {
+	} else if (index < 0) {
 		throw std::out_of_range("Invalid index");
 	}
 	return string[index];
@@ -193,7 +213,8 @@ std::ostream& operator<<(std::ostream& os, const String& r)
 	return os;
 }
 
-std::istream& operator>>(std::istream& is, String& r) {
+std::istream& operator>>(std::istream& is, String& r)
+{
 	char a;
 	String b;
 	while (is.get(a)) {
@@ -212,20 +233,22 @@ std::istream& operator>>(std::istream& is, String& r) {
 //-----------------------------------------------------
 // BigSmoke
 //-----------------------------------------------------
-BigSmoke::BigSmoke() {
+BigSmoke::BigSmoke()
+{
 	number = String("0");
 }
 
-BigSmoke::BigSmoke(const BigSmoke& a) {
+BigSmoke::BigSmoke(const BigSmoke& a)
+{
 	number = a.number;
 	negative = a.negative;
 }
 
-BigSmoke::BigSmoke(const String a) {
+BigSmoke::BigSmoke(const String a)
+{
 	if (a.size() == 0) {
 		number = "0";
-	}
-	else {
+	} else {
 		if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
 			throw std::invalid_argument("string contains invalid chars");
 		}
@@ -241,15 +264,15 @@ BigSmoke::BigSmoke(const String a) {
 			if (number == "0") {
 				negative = false;
 			}
-		}
-		else {
+		} else {
 			number = a.reverse();
 			this->normalize();
 		}
 	}
 }
 
-BigSmoke::BigSmoke(const long long a) {
+BigSmoke::BigSmoke(const long long a)
+{
 	long long b = a;
 	if (a < 0) {
 		negative = true;
@@ -264,26 +287,31 @@ BigSmoke::BigSmoke(const long long a) {
 	}
 }
 
-String BigSmoke::toString() const {
+String BigSmoke::toString() const
+{
 	return number.reverse();
 }
 
-BigSmoke BigSmoke::abs() const {
+BigSmoke BigSmoke::abs() const
+{
 	BigSmoke a;
 	a.number = this->number;
 	a.negative = false;
 	return a;
 }
 
-const int BigSmoke::size() const {
+const int BigSmoke::size() const
+{
 	return number.size();
 }
 
-const bool BigSmoke::isNegative() const {
+const bool BigSmoke::isNegative() const
+{
 	return negative;
 }
 
-void BigSmoke::normalize() {
+void BigSmoke::normalize()
+{
 	String num = "";
 	bool s = false;
 	for (int i = this->size() - 1; i >= 0; i--) {
@@ -296,13 +324,13 @@ void BigSmoke::normalize() {
 	}
 	if (num == "") {
 		number = "0";
-	}
-	else {
+	} else {
 		number = num.reverse();
 	}
 }
 
-BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
+BigSmoke& BigSmoke::operator+=(const BigSmoke& right)
+{
 	int size1 = this->size();
 	int size2 = right.size();
 	if (right.negative && !negative) {
@@ -310,8 +338,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 		number = ans.number;
 		negative = ans.negative;
 		return *this;
-	}
-	else if (!right.negative && negative) {
+	} else if (!right.negative && negative) {
 		BigSmoke ans = (right - BigSmoke(number.reverse()));
 		number = ans.number;
 		negative = ans.negative;
@@ -323,14 +350,12 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 		int cur1 = 0, cur2 = 0, sum = 0;
 		if (i >= size1) {
 			cur1 = 0;
-		}
-		else {
+		} else {
 			cur1 = number[i] - '0';
 		}
 		if (i >= size2) {
 			cur2 = 0;
-		}
-		else {
+		} else {
 			cur2 = right.number[i] - '0';
 		}
 		sum = cur1 + cur2 + ost;
@@ -344,7 +369,8 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 	return *this;
 }
 
-BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
+BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
+{
 	int size1 = this->size();
 	int size2 = right.size();
 	if (right.negative) {
@@ -357,8 +383,7 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 		String curstate;
 		if (zeros != 0) {
 			curstate = String("0") * zeros;
-		}
-		else {
+		} else {
 			curstate = "";
 		}
 		for (int j = 0; j < size1; j++) {
@@ -382,7 +407,8 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right) {
 	return *this;
 }
 
-BigSmoke& BigSmoke::operator-=(const BigSmoke& right) {
+BigSmoke& BigSmoke::operator-=(const BigSmoke& right)
+{
 	if (right.negative) {
 		BigSmoke ans = (*this + BigSmoke(right.number.reverse()));
 		number = ans.number;
@@ -401,20 +427,17 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right) {
 		if (number[i] < right.number[i]) {
 			ans += number[i] + 10 - ost - right.number[i] + '0';
 			ost = 1;
-		}
-		else {
+		} else {
 			ans += number[i] - right.number[i] + '0';
 		}
 	}
 	while (i < this->size()) {
 		if (number[i] == '0' && ost != 0) {
 			ans += '9';
-		}
-		else if (ost != 0) {
+		} else if (ost != 0) {
 			ans += number[i] - 1;
 			ost = 0;
-		}
-		else {
+		} else {
 			ans += number[i];
 		}
 		i++;
@@ -425,7 +448,8 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right) {
 	return *this;
 }
 
-BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
+BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
+{
 	int size1 = this->size();
 	int size2 = right.size();
 	if (right.negative) {
@@ -477,60 +501,69 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 	return *this;
 }
 
-BigSmoke& BigSmoke::operator%=(const BigSmoke& right) {
+BigSmoke& BigSmoke::operator%=(const BigSmoke& right)
+{
 	BigSmoke temp = *this / right;
 	temp *= right;
 	*this -= temp;
 	return *this;
 }
 
-BigSmoke BigSmoke::operator-() const{
+BigSmoke BigSmoke::operator-() const
+{
 	BigSmoke a;
 	a.number = number;
 	a.negative = !negative;
 	return a;
 }
 
-BigSmoke BigSmoke::operator+() const{
+BigSmoke BigSmoke::operator+() const
+{
 	return *this;
 }
 
-BigSmoke operator+(const BigSmoke& left, const BigSmoke& right) {
+BigSmoke operator+(const BigSmoke& left, const BigSmoke& right)
+{
 	BigSmoke c("0");
 	c += left;
 	c += right;
 	return c;
 }
 
-BigSmoke operator*(const BigSmoke& left, const BigSmoke& right) {
+BigSmoke operator*(const BigSmoke& left, const BigSmoke& right)
+{
 	BigSmoke c = 1;
 	c *= left;
 	c *= right;
 	return c;
 }
 
-BigSmoke operator/(const BigSmoke& left, const BigSmoke& right) {
+BigSmoke operator/(const BigSmoke& left, const BigSmoke& right)
+{
 	BigSmoke c = 1;
 	c *= left;
 	c /= right;
 	return c;
 }
 
-BigSmoke operator%(const BigSmoke& left, const BigSmoke& right) {
+BigSmoke operator%(const BigSmoke& left, const BigSmoke& right)
+{
 	BigSmoke c = 1;
 	c *= left;
 	c %= right;
 	return c;
 }
 
-BigSmoke operator-(const BigSmoke& left, const BigSmoke& right) {
+BigSmoke operator-(const BigSmoke& left, const BigSmoke& right)
+{
 	BigSmoke c = 0;
 	c += left;
 	c -= right;
 	return c;
 }
 
-bool BigSmoke::operator==(const BigSmoke& right) const {
+bool BigSmoke::operator==(const BigSmoke& right) const
+{
 	if (number == "0" && right.number == "0") {
 		return true;
 	}
@@ -540,14 +573,16 @@ bool BigSmoke::operator==(const BigSmoke& right) const {
 	return false;
 }
 
-bool BigSmoke::operator!=(const BigSmoke& right) const {
+bool BigSmoke::operator!=(const BigSmoke& right) const
+{
 	if (*this == right) {
 		return false;
 	}
 	return true;
 }
 
-bool BigSmoke::operator>(const BigSmoke& right) const {
+bool BigSmoke::operator>(const BigSmoke& right) const
+{
 	if (right.negative && !negative) {
 		return true;
 	}
@@ -559,15 +594,13 @@ bool BigSmoke::operator>(const BigSmoke& right) const {
 		int size2 = size();
 		if (size1 > size2) {
 			return true;
-		}
-		else if (size1 < size2) {
+		} else if (size1 < size2) {
 			return false;
 		}
 		for (int i = size1 - 1; i >= 0; i--) {
 			if (number[i] > right.number[i]) {
 				return false;
-			}
-			else if (number[i] < right.number[i]) {
+			} else if (number[i] < right.number[i]) {
 				return true;
 			}
 		}
@@ -577,30 +610,31 @@ bool BigSmoke::operator>(const BigSmoke& right) const {
 	int size2 = size();
 	if (size1 > size2) {
 		return false;
-	}
-	else if (size1 < size2) {
+	} else if (size1 < size2) {
 		return true;
 	}
 	for (int i = size1 - 1; i >= 0; i--) {
 		if (number[i] > right.number[i]) {
 			return true;
-		}
-		else if (number[i] < right.number[i]) {
+		} else if (number[i] < right.number[i]) {
 			return false;
 		}
 	}
 	return false;
 }
 
-bool BigSmoke::operator<(const BigSmoke& right) const {
-	return right > * this;
+bool BigSmoke::operator<(const BigSmoke& right) const
+{
+	return right > *this;
 }
 
-bool BigSmoke::operator>=(const BigSmoke& right) const {
+bool BigSmoke::operator>=(const BigSmoke& right) const
+{
 	return (*this > right) || (*this == right);
 }
 
-bool BigSmoke::operator<=(const BigSmoke& right) const {
+bool BigSmoke::operator<=(const BigSmoke& right) const
+{
 	return (*this < right) || (*this == right);
 }
 
