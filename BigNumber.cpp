@@ -1,5 +1,8 @@
-#include <algorithm>
 #include "BigNumber.h"
+
+long long Max(long long a, long long b) {
+	return a > b ? a : b;
+}
 
 //-----------------------------------------------------
 // String
@@ -136,10 +139,16 @@ bool String::operator!=(const String& right) const {
 }
 
 String& String::operator*=(int times) {
+	if (times < 0) {
+		throw std::invalid_argument("Can't multiply by negative numbers");
+	}
 	char* oldString = string;
 	string = new char[sSize * times + 1];
+	if (times == 0) {
+		string[0] = '\0';
+	}
 	for (int i = 0; i < times; i++) {
-		memcpy(string + i, oldString, sSize + 1);
+		memcpy(string + i * sSize, oldString, sSize + 1);
 	}
 	delete[] oldString;
 	sSize = sSize * times;
@@ -309,7 +318,7 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right) {
 		negative = ans.negative;
 		return *this;
 	}
-	String newNum = String("0") * std::max(size1, size2);
+	String newNum = String("0") * Max(size1, size2);
 	int ost = 0;
 	for (int i = 0; i < newNum.size(); i++) {
 		int cur1 = 0, cur2 = 0, sum = 0;

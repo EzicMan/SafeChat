@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 
+long long Max(long long a, long long b);
+
 class String {
 	char* string; // string itself
 	int sSize; // size of the string(without \0)
