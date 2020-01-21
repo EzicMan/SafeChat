@@ -441,7 +441,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 	BigSmoke divBy = right.abs();
 	BigSmoke newNum = number.reverse();
 	String ans = "";
-	while (newNum.size() > size2) {
+	while (newNum >= divBy) {
 		int i = 0;
 		String a = "";
 		while (BigSmoke(a) < divBy) {
@@ -449,7 +449,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right) {
 			i++;
 		}
 		BigSmoke temp = 0;
-		for (int j = 0; j < 10; j++) {
+		for (int j = 0; j <= 10; j++) {
 			temp = divBy * j;
 			if (temp > BigSmoke(a)) {
 				ans += j - 1 + '0';
