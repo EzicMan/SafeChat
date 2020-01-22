@@ -20,16 +20,15 @@ public:
 	 * Constructs a vector of size n
 	 * @arg n Initial vector size
 	 */
-	Vector(size_t n) {
+	Vector(size_t n)
+	{
 		try {
 			setCapacity(n);
-			for (size_t i = 0; i < n; i++)
-			{
+			for (size_t i = 0; i < n; i++) {
 				new (getData() + i) T();
 				m_iSize++;
 			}
-		}
-		catch (...) {
+		} catch (...) {
 			freeMem();
 			throw;
 		}
@@ -40,16 +39,15 @@ public:
 	 * @arg n Initial vector size
 	 * @arg def_val Value for those n elements
 	 */
-	Vector(size_t n, const T &def_val) {
+	Vector(size_t n, const T& def_val)
+	{
 		try {
 			setCapacity(n);
-			for (size_t i = 0; i < n; i++)
-			{
+			for (size_t i = 0; i < n; i++) {
 				new (getData() + i) T(def_val);
 				m_iSize++;
 			}
-		}
-		catch (...) {
+		} catch (...) {
 			freeMem();
 			throw;
 		}
@@ -59,16 +57,15 @@ public:
 	 * Constructs a copy of vector "from"
 	 * @arg from Vector to copy from
 	 */
-	Vector(const Vector &from) {
+	Vector(const Vector& from)
+	{
 		try {
 			setCapacity(from.size());
-			for (size_t i = 0; i < from.size(); i++)
-			{
+			for (size_t i = 0; i < from.size(); i++) {
 				new (getData() + i) T(from[i]);
 				m_iSize++;
 			}
-		}
-		catch (...) {
+		} catch (...) {
 			freeMem();
 			throw;
 		}
@@ -77,17 +74,19 @@ public:
 	/**
 	 * Moves vector
 	 */
-	Vector(Vector &&from) noexcept {
+	Vector(Vector&& from) noexcept
+	{
 		moveFrom(std::move(from));
 	}
 
-	~Vector() {
+	~Vector()
+	{
 		freeMem();
 	}
 
-	Vector &operator=(const Vector &) = delete;
+	Vector& operator=(const Vector&) = delete;
 
-	Vector &operator=(Vector &&from) noexcept
+	Vector& operator=(Vector&& from) noexcept
 	{
 		moveFrom(std::move(from));
 		return *this;
@@ -98,14 +97,16 @@ public:
 	/**
 	 * Returns the number of elements in the vector
 	 */
-	inline size_t size() const {
+	inline size_t size() const
+	{
 		return m_iSize;
 	}
 
 	/**
 	 * Returns capacity - maximum number of elements a vector can have before memory reallocation happens
 	 */
-	inline size_t capacity() const {
+	inline size_t capacity() const
+	{
 		return m_iCapaity;
 	}
 
@@ -113,38 +114,45 @@ public:
 	 * Returns the pointer to the first element.
 	 * If the vector is empty, behavior is undefined.
 	 */
-	inline T *getData() {
-		return reinterpret_cast<T *>(m_pData);
+	inline T* getData()
+	{
+		return reinterpret_cast<T*>(m_pData);
 	}
 
 	/**
 	 * Returns the pointer to the first element (const).
 	 * If the vector is empty, behavior is undefined.
 	 */
-	inline const T *getData() const {
-		return reinterpret_cast<const T *>(m_pData);
+	inline const T* getData() const
+	{
+		return reinterpret_cast<const T*>(m_pData);
 	}
 
-	inline T *begin() {
+	inline T* begin()
+	{
 		return getData();
 	}
 
-	inline T *end() {
+	inline T* end()
+	{
 		return getData() + m_iSize;
 	}
 
-	inline const T *begin() const {
+	inline const T* begin() const
+	{
 		return getData();
 	}
 
-	inline const T *end() const {
+	inline const T* end() const
+	{
 		return getData() + m_iSize;
 	}
 
 	/**
 	 * Returns reference to element at index idx
 	 */
-	inline T &operator[] (size_t idx) {
+	inline T& operator[](size_t idx)
+	{
 		assert(idx < m_iSize);
 		return getData()[idx];
 	}
@@ -152,7 +160,8 @@ public:
 	/**
 	 * Returns const reference to element at index idx
 	 */
-	inline const T &operator[] (size_t idx) const {
+	inline const T& operator[](size_t idx) const
+	{
 		assert(idx < m_iSize);
 		return getData()[idx];
 	}
@@ -162,7 +171,8 @@ public:
 	/**
 	 * Add an element to the end of the vector by copying it.
 	 */
-	void push_back(const T &obj) {
+	void push_back(const T& obj)
+	{
 		extendCapacityIfNeedTo();
 		new (getData() + m_iSize) T(obj);
 		m_iSize++;
@@ -171,7 +181,8 @@ public:
 	/**
 	 * Add an element to the end of the vector by moving it.
 	 */
-	void push_back(T &&obj) {
+	void push_back(T&& obj)
+	{
 		extendCapacityIfNeedTo();
 		new (getData() + m_iSize) T(std::move(obj));
 		m_iSize++;
@@ -181,17 +192,17 @@ public:
 	 * Removes all elements from the vector.
 	 * Capacity is not changed.
 	 */
-	void clear() {
+	void clear()
+	{
 		// Call destructors
-		for (size_t i = 0; i < m_iSize; i++)
-		{
+		for (size_t i = 0; i < m_iSize; i++) {
 			getData()[i].~T();
 		}
 		m_iSize = 0;
 	}
 
 private:
-	uint8_t *m_pData = nullptr;
+	uint8_t* m_pData = nullptr;
 	size_t m_iSize = 0;
 	size_t m_iCapaity = 0;
 
@@ -202,51 +213,44 @@ private:
 	/**
 	 * Extends the capacity to newCap. Doesn't decrease it.
 	 */
-	void setCapacity(size_t newCap) {
-		if (m_iCapaity == 0)
-		{
+	void setCapacity(size_t newCap)
+	{
+		if (m_iCapaity == 0) {
 			// Allocate new array
 			try {
 				assert(!m_pData);
 				m_pData = allocMemBlock(newCap);
 				m_iCapaity = newCap;
-			}
-			catch (const std::bad_alloc &) {
+			} catch (const std::bad_alloc&) {
 				throw;
 			}
-		}
-		else
-		{
+		} else {
 			// Extend the capacity
-			uint8_t *newData = nullptr;
+			uint8_t* newData = nullptr;
 
 			// Try to allocate new array
 			try {
 				newData = allocMemBlock(newCap);
-			}
-			catch (const std::bad_alloc &) {
+			} catch (const std::bad_alloc&) {
 				throw;
 			}
 
-			T *newDataT = reinterpret_cast<T *>(newData);
+			T* newDataT = reinterpret_cast<T*>(newData);
 
 			// Move objects from m_pData to newData
 			try {
-				for (size_t i = 0; i < m_iSize; i++)
-				{
+				for (size_t i = 0; i < m_iSize; i++) {
 					// Move T from m_pData[i] to newData[i]
 					new (newDataT + i) T(std::move(getData()[i]));
 				}
-			}
-			catch (...) {
+			} catch (...) {
 				// A move constructor has thrown an exception.
 				// It is essentially impossible to restore integrity of the vector.
 				std::abort();
 			}
 
 			// Destroy the old array
-			for (size_t i = 0; i < m_iSize; i++)
-			{
+			for (size_t i = 0; i < m_iSize; i++) {
 				getData()[i].~T();
 			}
 			freeMemBlock(m_pData);
@@ -259,9 +263,9 @@ private:
 	/**
 	 * Extends the capacity to hold at least one more element
 	 */
-	void extendCapacityIfNeedTo() {
-		if (m_iSize + 1 > m_iCapaity)
-		{
+	void extendCapacityIfNeedTo()
+	{
+		if (m_iSize + 1 > m_iCapaity) {
 			if (m_iCapaity == 0)
 				setCapacity(1);
 			else
@@ -272,7 +276,8 @@ private:
 	/**
 	 * Frees all allocated memory
 	 */
-	void freeMem() {
+	void freeMem()
+	{
 		if (m_pData) {
 			assert(m_iCapaity > 0);
 			clear();
@@ -289,7 +294,8 @@ private:
 	 * Allocates a chunk of raw memory big enough to hold n Ts
 	 * Must be freed with freeMemBlock
 	 */
-	uint8_t *allocMemBlock(size_t n) {
+	uint8_t* allocMemBlock(size_t n)
+	{
 #ifdef VECTOR_CHECK_ALLOC_NUM
 		m_iAllocCount++;
 #endif
@@ -299,14 +305,16 @@ private:
 	/**
 	 * Frees memory allocated by allocMemBlock
 	 */
-	void freeMemBlock(uint8_t *block) {
+	void freeMemBlock(uint8_t* block)
+	{
 		delete[] block;
 #ifdef VECTOR_CHECK_ALLOC_NUM
 		m_iAllocCount--;
 #endif
 	}
 
-	void moveFrom(Vector &&from) {
+	void moveFrom(Vector&& from)
+	{
 #ifdef VECTOR_CHECK_ALLOC_NUM
 		assert(from.m_iAllocCount == 1);
 		m_iAllocCount = 1;

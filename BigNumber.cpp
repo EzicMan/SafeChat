@@ -101,6 +101,9 @@ String String::substring(size_t sindex, size_t eindex) const
 String String::reverse() const
 {
 	String b;
+	if (size() == 0) {
+		return String("");
+	}
 	for (size_t i = size() - 1; i > 0; i--) {
 		b += String((*this)[i]);
 	}
