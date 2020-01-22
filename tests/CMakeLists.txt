@@ -11,6 +11,7 @@ endif()
 # libsafechat
 set( LIBSAFECHAT_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/../BigNumber.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../Vector.h"
 )
 
 set( LIBSAFECHAT_SOURCE_FILES
@@ -31,6 +32,7 @@ add_executable( safechat_tests
 	src/catch.hpp
 	src/string.cpp
 	src/bigsmoke.cpp
+	src/vector.cpp
 )
 
 target_link_libraries( safechat_tests
