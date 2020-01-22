@@ -5,7 +5,7 @@ long long Max(long long a, long long b);
 
 class String {
 	char* string; // string itself
-	size_t sSize; // size of the string(without \0)
+	long long sSize; // size of the string(without \0)
 public:
 	//constructors
 	String();
@@ -14,22 +14,22 @@ public:
 	String(char a);
 	String(const String& a);
 	~String(); //destructor
-	const size_t size() const; // returns size of the string(without \0)
-	const char* begin() const; // returns posize_ter to beginning of the string
-	const char* end() const; // returns posize_ter to the end of the string
+	const long long size() const; // returns size of the string(without \0)
+	const char* begin() const; // returns polong longer to beginning of the string
+	const char* end() const; // returns polong longer to the end of the string
 	const char* getCharAr() const; // converts string to char array and returns it
-	String substring(size_t sindex, size_t eindex) const; // gets the substring [sindex;eindex)
+	String substring(long long sindex, long long eindex) const; // gets the substring [sindex;eindex)
 	String reverse() const; // reverses the string
 	//basic operators
 	String& operator+=(const String& right);
 	String& operator=(const String& right);
 	bool operator==(const String& right) const;
 	bool operator!=(const String& right) const;
-	String& operator*=(size_t times);
-	friend String operator*(const String& left, size_t times);
-	friend String operator*(size_t times, const String& left);
+	String& operator*=(long long times);
+	friend String operator*(const String& left, long long times);
+	friend String operator*(long long times, const String& left);
 	friend String operator+(const String& left, const String& right);
-	char& operator[](size_t index) const;
+	char& operator[](long long index) const;
 	friend std::ostream& operator<<(std::ostream& os, const String& r);
 	friend std::istream& operator>>(std::istream& is, String& r);
 };
@@ -45,7 +45,7 @@ public:
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
 	BigSmoke abs() const; //returns absolute value of number
-	const size_t size() const; // returns size of the number
+	const long long size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive
 	void normalize(); // deletes all non-meaningfull zeros from the number
 	// basic operators

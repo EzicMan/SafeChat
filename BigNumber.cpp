@@ -18,8 +18,8 @@ String::String()
 
 String::String(char* a)
 {
-	size_t i = 0;
-	size_t n = 0;
+	long long i = 0;
+	long long n = 0;
 	while (true) {
 		if (a[i] == '\0') {
 			break;
@@ -34,8 +34,8 @@ String::String(char* a)
 
 String::String(const char* a)
 {
-	size_t i = 0;
-	size_t n = 0;
+	long long i = 0;
+	long long n = 0;
 	while (true) {
 		if (a[i] == '\0') {
 			break;
@@ -69,7 +69,7 @@ String::~String()
 	delete[] string;
 }
 
-const size_t String::size() const
+const long long String::size() const
 {
 	return sSize;
 }
@@ -89,10 +89,10 @@ const char* String::getCharAr() const
 	return string;
 }
 
-String String::substring(size_t sindex, size_t eindex) const
+String String::substring(long long sindex, long long eindex) const
 {
 	String ans = "";
-	for (size_t i = sindex; i < eindex; i++) {
+	for (long long i = sindex; i < eindex; i++) {
 		ans += string[i];
 	}
 	return ans;
@@ -101,25 +101,21 @@ String String::substring(size_t sindex, size_t eindex) const
 String String::reverse() const
 {
 	String b;
-	if (size() == 0) {
-		return String("");
-	}
-	for (size_t i = size() - 1; i > 0; i--) {
+	for (long long i = size() - 1; i >= 0; i--) {
 		b += String((*this)[i]);
 	}
-	b += String((*this)[0]);
 	return b;
 }
 
 String& String::operator+=(const String& right)
 {
 	const char* a = right.getCharAr();
-	const size_t aSize = right.size();
+	const long long aSize = right.size();
 	char* oldString = string;
 	string = new char[sSize + aSize + 1];
 	memcpy(string, oldString, sSize);
 	delete[] oldString;
-	for (size_t i = sSize; i <= sSize + aSize; i++) {
+	for (long long i = sSize; i <= sSize + aSize; i++) {
 		string[i] = a[i - sSize];
 	}
 	sSize = sSize + aSize;
@@ -129,7 +125,7 @@ String& String::operator+=(const String& right)
 String& String::operator=(const String& right)
 {
 	const char* a = right.getCharAr();
-	const size_t aSize = right.size();
+	const long long aSize = right.size();
 	char* oldString = string;
 	string = new char[aSize + 1];
 	memcpy(string, a, aSize + 1);
@@ -143,7 +139,7 @@ bool String::operator==(const String& right) const
 	if (right.size() != this->size()) {
 		return false;
 	}
-	for (size_t i = 0; i < right.size(); i++) {
+	for (long long i = 0; i < right.size(); i++) {
 		if (string[i] != right.getCharAr()[i]) {
 			return false;
 		}
@@ -159,7 +155,7 @@ bool String::operator!=(const String& right) const
 	return true;
 }
 
-String& String::operator*=(size_t times)
+String& String::operator*=(long long times)
 {
 	if (times < 0) {
 		throw std::invalid_argument("Can't multiply by negative numbers");
@@ -169,7 +165,7 @@ String& String::operator*=(size_t times)
 	if (times == 0) {
 		string[0] = '\0';
 	}
-	for (size_t i = 0; i < times; i++) {
+	for (long long i = 0; i < times; i++) {
 		memcpy(string + i * sSize, oldString, sSize + 1);
 	}
 	delete[] oldString;
@@ -177,7 +173,7 @@ String& String::operator*=(size_t times)
 	return *this;
 }
 
-String operator*(const String& left, size_t times)
+String operator*(const String& left, long long times)
 {
 	String c;
 	c += left;
@@ -185,7 +181,7 @@ String operator*(const String& left, size_t times)
 	return c;
 }
 
-String operator*(size_t times, const String& left)
+String operator*(long long times, const String& left)
 {
 	String c;
 	c += left;
@@ -201,9 +197,11 @@ String operator+(const String& left, const String& right)
 	return c;
 }
 
-char& String::operator[](size_t index) const
+char& String::operator[](long long index) const
 {
 	if (index >= sSize) {
+		throw std::out_of_range("Invalid index");
+	} else if (index < 0) {
 		throw std::out_of_range("Invalid index");
 	}
 	return string[index];
@@ -254,7 +252,7 @@ BigSmoke::BigSmoke(const String a)
 		if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
 			throw std::invalid_argument("string contains invalid chars");
 		}
-		for (size_t i = 0; i < a.size(); i++) {
+		for (long long i = 0; i < a.size(); i++) {
 			if (i != 0 && (a[i] < '0' || a[i] > '9')) {
 				throw std::invalid_argument("string contains invalid chars");
 			}
@@ -306,7 +304,7 @@ BigSmoke BigSmoke::abs() const
 	return a;
 }
 
-const size_t BigSmoke::size() const
+const long long BigSmoke::size() const
 {
 	return number.size();
 }
@@ -320,19 +318,13 @@ void BigSmoke::normalize()
 {
 	String num = "";
 	bool s = false;
-	for (size_t i = this->size() - 1; i > 0; i--) {
+	for (long long i = this->size() - 1; i >= 0; i--) {
 		if (number[i] != '0' && !s) {
 			s = true;
 		}
 		if (s) {
 			num += number[i];
 		}
-	}
-	if (number[0] != '0' && !s) {
-		s = true;
-	}
-	if (s) {
-		num += number[0];
 	}
 	if (num == "") {
 		number = "0";
@@ -343,8 +335,8 @@ void BigSmoke::normalize()
 
 BigSmoke& BigSmoke::operator+=(const BigSmoke& right)
 {
-	size_t size1 = this->size();
-	size_t size2 = right.size();
+	long long size1 = this->size();
+	long long size2 = right.size();
 	if (right.negative && !negative) {
 		BigSmoke ans = (*this - BigSmoke(right.number.reverse()));
 		number = ans.number;
@@ -357,9 +349,9 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right)
 		return *this;
 	}
 	String newNum = String("0") * Max(size1, size2);
-	size_t ost = 0;
-	for (size_t i = 0; i < newNum.size(); i++) {
-		size_t cur1 = 0, cur2 = 0, sum = 0;
+	long long ost = 0;
+	for (long long i = 0; i < newNum.size(); i++) {
+		long long cur1 = 0, cur2 = 0, sum = 0;
 		if (i >= size1) {
 			cur1 = 0;
 		} else {
@@ -409,23 +401,23 @@ BigSmoke& BigSmoke::operator--(int a)
 
 BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 {
-	size_t size1 = this->size();
-	size_t size2 = right.size();
+	long long size1 = this->size();
+	long long size2 = right.size();
 	if (right.negative) {
 		this->negative = !this->negative;
 	}
 	BigSmoke newNum = 0;
-	size_t zeros = 0;
-	for (size_t i = 0; i < size2; i++) {
-		size_t ost = 0;
+	long long zeros = 0;
+	for (long long i = 0; i < size2; i++) {
+		long long ost = 0;
 		String curstate;
 		if (zeros != 0) {
 			curstate = String("0") * zeros;
 		} else {
 			curstate = "";
 		}
-		for (size_t j = 0; j < size1; j++) {
-			size_t num = (number[j] - '0') * (right.number[i] - '0');
+		for (long long j = 0; j < size1; j++) {
+			long long num = (number[j] - '0') * (right.number[i] - '0');
 			num += ost;
 			ost = num / 10;
 			num %= 10;
@@ -458,9 +450,9 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right)
 		negative = true;
 		return *this;
 	}
-	size_t ost = 0;
+	long long ost = 0;
 	String ans = "";
-	size_t i;
+	long long i;
 	for (i = 0; i < right.size(); i++) {
 		if ((number[i] - ost) < right.number[i]) {
 			ans += number[i] + 10 - ost - right.number[i] + '0';
@@ -489,8 +481,8 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right)
 
 BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 {
-	size_t size1 = this->size();
-	size_t size2 = right.size();
+	long long size1 = this->size();
+	long long size2 = right.size();
 	if (right.negative) {
 		this->negative = !this->negative;
 	}
@@ -504,10 +496,10 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	}
 	BigSmoke divBy = right.abs();
 	String ans = "";
-	size_t k = 0;
+	long long k = 0;
 	String ost = "";
-	size_t i = 0;
-	size_t z = 0;
+	long long i = 0;
+	long long z = 0;
 	while (i < number.size()) {
 		while (BigSmoke(ost) < divBy && i < number.size()) {
 			ost += number.reverse()[i];
@@ -523,7 +515,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 		}
 		z = 0;
 		BigSmoke temp = 0;
-		for (size_t j = 0; j <= 10; j++) {
+		for (long long j = 0; j <= 10; j++) {
 			temp = divBy * j;
 			if (temp > BigSmoke(ost)) {
 				ans += j - 1 + '0';
@@ -630,14 +622,14 @@ bool BigSmoke::operator>(const BigSmoke& right) const
 		return false;
 	}
 	if (right.negative && negative) {
-		size_t size1 = right.size();
-		size_t size2 = size();
+		long long size1 = right.size();
+		long long size2 = size();
 		if (size1 > size2) {
 			return true;
 		} else if (size1 < size2) {
 			return false;
 		}
-		for (size_t i = size1 - 1; i >= 0; i--) {
+		for (long long i = size1 - 1; i >= 0; i--) {
 			if (number[i] > right.number[i]) {
 				return false;
 			} else if (number[i] < right.number[i]) {
@@ -646,14 +638,14 @@ bool BigSmoke::operator>(const BigSmoke& right) const
 		}
 		return false;
 	}
-	size_t size1 = right.size();
-	size_t size2 = size();
+	long long size1 = right.size();
+	long long size2 = size();
 	if (size1 > size2) {
 		return false;
 	} else if (size1 < size2) {
 		return true;
 	}
-	for (size_t i = size1 - 1; i >= 0; i--) {
+	for (long long i = size1 - 1; i >= 0; i--) {
 		if (number[i] > right.number[i]) {
 			return true;
 		} else if (number[i] < right.number[i]) {
