@@ -321,7 +321,10 @@ BigSmoke::BigSmoke(const String a)
 				}
 				k++;
 			}
-			number = tn.toString();
+			number = tn.toString().reverse();
+			if (number == "0") {
+				negative = false;
+			}
 		} else {
 			if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
 				throw std::invalid_argument("string contains invalid chars");
