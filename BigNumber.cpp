@@ -6,6 +6,15 @@ long long Max(long long a, long long b)
 	return a > b ? a : b;
 }
 
+BigSmoke Power(BigSmoke a, BigSmoke b)
+{
+	BigSmoke c = 1;
+	for (BigSmoke i = 0; i < b; i++) {
+		c *= a;
+	}
+	return c;
+}
+
 //-----------------------------------------------------
 // String
 //-----------------------------------------------------
@@ -101,8 +110,32 @@ String String::substring(long long sindex, long long eindex) const
 String String::reverse() const
 {
 	String b;
-	for (long long i = size() - 1; i >= 0; i--) {
+	for (long long i = sSize - 1; i >= 0; i--) {
 		b += String((*this)[i]);
+	}
+	return b;
+}
+
+String String::toLower() const
+{
+	String b;
+	for (long long i = 0; i < sSize; i++) {
+		if (string[i] >= 'A' && string[i] <= 'Z') {
+			b += (string[i] - 'A' + 'a');
+		} else {
+			b += string[i];
+		}
+	}
+	return b;
+}
+
+String String::toHigher() const
+{
+	String b;
+	for (long long i = 0; i < sSize; i++) {
+		if (string[i] >= 'a' && string[i] <= 'z') {
+			b += (string[i] - 'a' + 'A');
+		}
 	}
 	return b;
 }
@@ -249,24 +282,66 @@ BigSmoke::BigSmoke(const String a)
 	if (a.size() == 0) {
 		number = "0";
 	} else {
-		if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
-			throw std::invalid_argument("string contains invalid chars");
-		}
-		for (long long i = 0; i < a.size(); i++) {
-			if (i != 0 && (a[i] < '0' || a[i] > '9')) {
+		if (a.size() > 2 && a[0] == '0' && (a[1] == 'x' || a[1] == 'X')) {
+			//from positive hex
+			negative = false;
+			String b = a.toLower();
+			for (int i = 2; i < b.size(); i++) {
+				if ((b[i] < '0' || b[i] > '9') && (b[i] < 'a' || b[i] > 'f')) {
+					throw std::invalid_argument("string contains invalid chars");
+				}
+			}
+			BigSmoke k = 0;
+			BigSmoke tn = 0;
+			for (int i = b.size() - 1; i >= 2; i--) {
+				if (b[i] >= 'a') {
+					tn += BigSmoke(b[i] - 'a' + 10) * Power(16, k);
+				} else {
+					tn += (b[i] - '0') * Power(16, k);
+				}
+				k++;
+			}
+			number = tn.toString().reverse();
+		} else if (a.size() > 3 && a[0] == '-' && a[1] == '0' && (a[2] == 'x' || a[2] == 'X')) {
+			//from negtive hex
+			negative = true;
+			String b = a.toLower();
+			for (int i = 3; i < b.size(); i++) {
+				if ((b[i] < '0' || b[i] > '9') && (b[i] < 'a' || b[i] > 'f')) {
+					throw std::invalid_argument("string contains invalid chars");
+				}
+			}
+			BigSmoke k = 0;
+			BigSmoke tn = 0;
+			for (int i = b.size() - 1; i >= 3; i--) {
+				if (b[i] >= 'a') {
+					tn += (b[i] - 'a' + 10) * Power(16, k);
+				} else {
+					tn += (b[i] - '0') * Power(16, k);
+				}
+				k++;
+			}
+			number = tn.toString();
+		} else {
+			if ((a[0] < '0' || a[0] > '9') && a[0] != '-') {
 				throw std::invalid_argument("string contains invalid chars");
 			}
-		}
-		if (a[0] == '-') {
-			negative = true;
-			number = a.substring(1, a.size()).reverse();
-			this->normalize();
-			if (number == "0") {
-				negative = false;
+			for (long long i = 0; i < a.size(); i++) {
+				if (i != 0 && (a[i] < '0' || a[i] > '9')) {
+					throw std::invalid_argument("string contains invalid chars");
+				}
 			}
-		} else {
-			number = a.reverse();
-			this->normalize();
+			if (a[0] == '-') {
+				negative = true;
+				number = a.substring(1, a.size()).reverse();
+				this->normalize();
+				if (number == "0") {
+					negative = false;
+				}
+			} else {
+				number = a.reverse();
+				this->normalize();
+			}
 		}
 	}
 }
@@ -293,6 +368,30 @@ String BigSmoke::toString() const
 	if (negative) {
 		ans += '-';
 	}
+	return ans.reverse();
+}
+
+String BigSmoke::asHexString() const
+{
+	String ans = "";
+	BigSmoke num = *this;
+	while (num >= 16) {
+		BigSmoke a = num % 16;
+		if (a >= 10) {
+			a -= 10;
+			ans += ('A' + a.toString()[0] - '0');
+		} else {
+			ans += a.toString()[0];
+		}
+		num /= 16;
+	}
+	if (num >= 10) {
+		num -= 10;
+		ans += ('A' + num.toString()[0] - '0');
+	} else {
+		ans += num.toString()[0];
+	}
+	ans += "x0";
 	return ans.reverse();
 }
 

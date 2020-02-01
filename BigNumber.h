@@ -20,6 +20,8 @@ public:
 	const char* getCharAr() const; // converts string to char array and returns it
 	String substring(long long sindex, long long eindex) const; // gets the substring [sindex;eindex)
 	String reverse() const; // reverses the string
+	String toLower() const; // returns string with all lower symbols
+	String toHigher() const; // returns string with all higher symbols
 	//basic operators
 	String& operator+=(const String& right);
 	String& operator=(const String& right);
@@ -44,6 +46,7 @@ public:
 	BigSmoke(const String a);
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
+	String asHexString() const; // returns number as hex string
 	BigSmoke abs() const; //returns absolute value of number
 	const long long size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive
