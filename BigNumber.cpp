@@ -135,6 +135,8 @@ String String::toHigher() const
 	for (long long i = 0; i < sSize; i++) {
 		if (string[i] >= 'a' && string[i] <= 'z') {
 			b += (string[i] - 'a' + 'A');
+		} else {
+			b += string[i];
 		}
 	}
 	return b;
