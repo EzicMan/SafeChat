@@ -9,7 +9,6 @@ class String {
 public:
 	//constructors
 	String();
-	String(char* a);
 	String(const char* a);
 	String(char a);
 	String(const String& a);

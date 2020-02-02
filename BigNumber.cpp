@@ -25,22 +25,6 @@ String::String()
 	sSize = 0;
 }
 
-String::String(char* a)
-{
-	long long i = 0;
-	long long n = 0;
-	while (true) {
-		if (a[i] == '\0') {
-			break;
-		}
-		n++;
-		i++;
-	}
-	sSize = n;
-	string = new char[sSize + 1];
-	memcpy(string, a, sSize + 1);
-}
-
 String::String(const char* a)
 {
 	long long i = 0;
