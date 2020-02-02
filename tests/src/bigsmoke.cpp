@@ -402,3 +402,16 @@ TEST_CASE("decrement suffix and prefix -- --", "[bigsmoke]")
 	REQUIRE(a == -12);
 	REQUIRE(a.isNegative());
 }
+
+TEST_CASE("HEX", "[bigsmoke]")
+{
+	for (unsigned int i = 0; i <= 0xFFFFFF; i += 0x7A95) {
+		char buf[128];
+		snprintf(buf, sizeof(buf), "0x%X", i);
+
+		BigSmoke number(buf);
+		String hex(number.asHexString());
+
+		REQUIRE(!strcmp(hex.getCharAr(), buf));
+	}
+}
