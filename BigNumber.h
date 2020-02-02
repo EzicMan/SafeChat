@@ -7,7 +7,8 @@ long long Max(long long a, long long b);
 // String
 //-----------------------------------------------------
 class String {
-	struct DummyStruct {};
+	struct DummyStruct {
+	};
 
 	char* string; // string itself
 	long long sSize; // size of the string(without \0)

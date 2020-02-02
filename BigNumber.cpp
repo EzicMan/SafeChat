@@ -1,6 +1,6 @@
+#include "BigNumber.h"
 #include <cassert>
 #include <cstring>
-#include "BigNumber.h"
 
 long long Max(long long a, long long b)
 {
@@ -102,7 +102,7 @@ String& String::operator=(String&& rhs) noexcept
 
 	string = rhs.string;
 	sSize = rhs.sSize;
-	
+
 	rhs.string = nullptr;
 	rhs.sSize = -1;
 
@@ -118,7 +118,7 @@ String String::substring(long long sindex, long long eindex) const
 
 	assert(eindex > sindex);
 
-	String ret(DummyStruct{});
+	String ret(DummyStruct {});
 	ret.sSize = eindex - sindex;
 
 	ret.string = new char[ret.sSize + 1];
@@ -427,20 +427,13 @@ const bool BigSmoke::isNegative() const
 
 void BigSmoke::normalize()
 {
-	String num = "";
-	bool s = false;
-	for (long long i = this->size() - 1; i >= 0; i--) {
-		if (number[i] != '0' && !s) {
-			s = true;
-		}
-		if (s) {
-			num += number[i];
-		}
-	}
-	if (num == "") {
+	long long i;
+	for (i = number.size() - 1; i >= 0 && number[i] == '0'; i--)
+		;
+	if (i == -1) {
 		number = "0";
 	} else {
-		number = num.reverse();
+		number = number.substring(0, i + 1);
 	}
 }
 
