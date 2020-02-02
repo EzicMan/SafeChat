@@ -86,27 +86,25 @@ String String::reverse() const
 
 String String::toLower() const
 {
-	String b;
-	for (long long i = 0; i < sSize; i++) {
-		if (string[i] >= 'A' && string[i] <= 'Z') {
-			b += (string[i] - 'A' + 'a');
-		} else {
-			b += string[i];
-		}
+	String b(*this);
+
+	for (char& c : b) {
+		if (c >= 'A' && c <= 'Z')
+			c = c - 'A' + 'a';
 	}
+
 	return b;
 }
 
 String String::toUpper() const
 {
-	String b;
-	for (long long i = 0; i < sSize; i++) {
-		if (string[i] >= 'a' && string[i] <= 'z') {
-			b += (string[i] - 'a' + 'A');
-		} else {
-			b += string[i];
-		}
+	String b(*this);
+
+	for (char& c : b) {
+		if (c >= 'a' && c <= 'z')
+			c = c - 'a' + 'A';
 	}
+
 	return b;
 }
 
