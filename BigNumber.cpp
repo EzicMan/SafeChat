@@ -1,5 +1,6 @@
-#include "BigNumber.h"
+#include <cassert>
 #include <cstring>
+#include "BigNumber.h"
 
 long long Max(long long a, long long b)
 {
@@ -23,6 +24,8 @@ BigSmoke Power(BigSmoke a, BigSmoke n)
 //-----------------------------------------------------
 // String
 //-----------------------------------------------------
+String::String(DummyStruct) {}
+
 String::String()
 {
 	string = new char[1];
@@ -99,7 +102,7 @@ String& String::operator=(String&& rhs) noexcept
 
 	string = rhs.string;
 	sSize = rhs.sSize;
-
+	
 	rhs.string = nullptr;
 	rhs.sSize = -1;
 
@@ -108,11 +111,21 @@ String& String::operator=(String&& rhs) noexcept
 
 String String::substring(long long sindex, long long eindex) const
 {
-	String ans = "";
-	for (long long i = sindex; i < eindex; i++) {
-		ans += string[i];
-	}
-	return ans;
+	if (sindex < 0)
+		sindex = 0;
+	if (eindex >= sSize)
+		eindex = sSize;
+
+	assert(eindex > sindex);
+
+	String ret(DummyStruct{});
+	ret.sSize = eindex - sindex;
+
+	ret.string = new char[ret.sSize + 1];
+	memcpy(ret.string, string + sindex, ret.sSize);
+	ret.string[ret.sSize] = '\0';
+
+	return ret;
 }
 
 String String::reverse() const
