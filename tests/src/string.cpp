@@ -85,7 +85,7 @@ TEST_CASE("String begin(), end() and []", "[string]")
 			REQUIRE_NOTHROW(str[i]);
 		}
 
-		for (int i = str.size(); i < str.size() + 4; i++) {
+		for (int i = str.size() + 1; i < str.size() + 4; i++) {
 			REQUIRE_THROWS_AS(str[i], std::out_of_range);
 		}
 	}

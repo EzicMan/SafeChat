@@ -227,7 +227,7 @@ String operator+(const String& left, const String& right)
 
 char& String::operator[](long long index) const
 {
-	if (index >= sSize) {
+	if (index > sSize) {
 		throw std::out_of_range("Invalid index");
 	} else if (index < 0) {
 		throw std::out_of_range("Invalid index");
