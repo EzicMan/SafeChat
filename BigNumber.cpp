@@ -93,10 +93,14 @@ String String::substring(long long sindex, long long eindex) const
 
 String String::reverse() const
 {
-	String b;
-	for (long long i = sSize - 1; i >= 0; i--) {
-		b += String((*this)[i]);
+	String b(*this);
+
+	int len = size();
+	int len2 = len / 2;
+	for (int i = 0; i < len2; i++) {
+		std::swap(b[i], b[len - i - 1]);
 	}
+
 	return b;
 }
 
