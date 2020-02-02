@@ -484,14 +484,14 @@ BigSmoke& BigSmoke::operator--()
 	return *this;
 }
 
-BigSmoke& BigSmoke::operator++(int a)
+BigSmoke BigSmoke::operator++(int)
 {
 	BigSmoke b = *this;
 	++(*this);
 	return b;
 }
 
-BigSmoke& BigSmoke::operator--(int a)
+BigSmoke BigSmoke::operator--(int)
 {
 	BigSmoke b = *this;
 	--(*this);
