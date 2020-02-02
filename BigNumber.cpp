@@ -62,9 +62,8 @@ String::String(String&& rhs) noexcept
 	string = rhs.string;
 	sSize = rhs.sSize;
 
-	rhs.string = new char[1];
-	rhs.string[0] = '\0';
-	rhs.sSize = 0;
+	rhs.string = nullptr;
+	rhs.sSize = -1;
 }
 
 String::~String()
@@ -96,9 +95,8 @@ String& String::operator=(String&& rhs) noexcept
 	string = rhs.string;
 	sSize = rhs.sSize;
 
-	rhs.string = new char[1];
-	rhs.string[0] = '\0';
-	rhs.sSize = 0;
+	rhs.string = nullptr;
+	rhs.sSize = -1;
 
 	return *this;
 }
