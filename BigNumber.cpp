@@ -57,9 +57,48 @@ String::String(const String& a)
 	memcpy(string, b, sSize + 1);
 }
 
+String::String(String&& rhs) noexcept
+{
+	string = rhs.string;
+	sSize = rhs.sSize;
+
+	rhs.string = new char[1];
+	rhs.string[0] = '\0';
+	rhs.sSize = 0;
+}
+
 String::~String()
 {
 	delete[] string;
+}
+
+String& String::operator=(const String& rhs)
+{
+	if (&rhs == this)
+		return *this;
+
+	delete[] string;
+
+	sSize = rhs.size();
+	string = new char[sSize + 1];
+	memcpy(string, rhs.getCharAr(), sSize + 1);
+
+	return *this;
+}
+
+String& String::operator=(String&& rhs) noexcept
+{
+	if (&rhs == this)
+		return *this;
+
+	string = rhs.string;
+	sSize = rhs.sSize;
+
+	rhs.string = new char[1];
+	rhs.string[0] = '\0';
+	rhs.sSize = 0;
+
+	return *this;
 }
 
 String String::substring(long long sindex, long long eindex) const
@@ -120,18 +159,6 @@ String& String::operator+=(const String& right)
 		string[i] = a[i - sSize];
 	}
 	sSize = sSize + aSize;
-	return *this;
-}
-
-String& String::operator=(const String& right)
-{
-	const char* a = right.getCharAr();
-	const long long aSize = right.size();
-	char* oldString = string;
-	string = new char[aSize + 1];
-	memcpy(string, a, aSize + 1);
-	delete[] oldString;
-	sSize = aSize;
 	return *this;
 }
 

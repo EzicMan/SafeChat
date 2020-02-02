@@ -14,8 +14,16 @@ public:
 	String();
 	String(const char* a);
 	String(char a);
+
 	String(const String& a);
-	~String(); //destructor
+	String(String&& rhs) noexcept;
+
+	//destructor
+	~String();
+
+	//assignment
+	String& operator=(const String& right);
+	String& operator=(String&& rhs) noexcept;
 
 	long long size() const; // returns size of the string(without \0)
 	const char* getCharAr() const; // converts string to char array and returns it
@@ -33,7 +41,6 @@ public:
 
 	//basic operators
 	String& operator+=(const String& right);
-	String& operator=(const String& right);
 	bool operator==(const String& right) const;
 	bool operator!=(const String& right) const;
 	String& operator*=(long long times);

@@ -231,3 +231,27 @@ TEST_CASE("toUpper and toLower", "[string]")
 		REQUIRE(!strcmp(buf, str.getCharAr()));
 	}
 }
+
+#define MOVE_TEST_STR "A string with text"
+
+TEST_CASE("move contructor", "[string]")
+{
+	String a(MOVE_TEST_STR);
+	String b(std::move(a));
+	REQUIRE(a.size() == 0);
+	REQUIRE(a[0] == '\0');
+	REQUIRE(b.size() == strlen(MOVE_TEST_STR));
+	REQUIRE(b == MOVE_TEST_STR);
+}
+
+TEST_CASE("move assignment", "[string]")
+{
+	String a(MOVE_TEST_STR);
+	String b;
+	REQUIRE(b.size() == 0);
+	b = std::move(a);
+	REQUIRE(a.size() == 0);
+	REQUIRE(a[0] == '\0');
+	REQUIRE(b.size() == strlen(MOVE_TEST_STR));
+	REQUIRE(b == MOVE_TEST_STR);
+}
