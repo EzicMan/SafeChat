@@ -116,10 +116,12 @@ String String::reverse() const
 {
 	String b(*this);
 
-	int len = size();
-	int len2 = len / 2;
-	for (int i = 0; i < len2; i++) {
-		std::swap(b[i], b[len - i - 1]);
+	long long len = size();
+	long long len2 = len / 2;
+	for (long long i = 0; i < len2; i++) {
+		char t = b[i];
+		b[i] = b[len - i - 1];
+		b[len - i - 1] = t;
 	}
 
 	return b;
@@ -290,7 +292,7 @@ BigSmoke::BigSmoke(const String a)
 			}
 			BigSmoke k = 0;
 			BigSmoke tn = 0;
-			for (int i = b.size() - 1; i >= 2; i--) {
+			for (long long i = b.size() - 1; i >= 2; i--) {
 				if (b[i] >= 'a') {
 					tn += BigSmoke(b[i] - 'a' + 10) * Power(16, k);
 				} else {
@@ -310,7 +312,7 @@ BigSmoke::BigSmoke(const String a)
 			}
 			BigSmoke k = 0;
 			BigSmoke tn = 0;
-			for (int i = b.size() - 1; i >= 3; i--) {
+			for (long long i = b.size() - 1; i >= 3; i--) {
 				if (b[i] >= 'a') {
 					tn += (b[i] - 'a' + 10) * Power(16, k);
 				} else {
@@ -520,10 +522,10 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 			num += ost;
 			ost = num / 10;
 			num %= 10;
-			curstate += (num + '0');
+			curstate += (char)(num + '0');
 		}
 		if (ost != 0) {
-			curstate += (ost + '0');
+			curstate += (char)(ost + '0');
 		}
 		newNum += BigSmoke(curstate.reverse());
 		zeros++;
@@ -554,10 +556,10 @@ BigSmoke& BigSmoke::operator-=(const BigSmoke& right)
 	long long i;
 	for (i = 0; i < right.size(); i++) {
 		if ((number[i] - ost) < right.number[i]) {
-			ans += number[i] + 10 - ost - right.number[i] + '0';
+			ans += (char)(number[i] + 10 - ost - right.number[i] + '0');
 			ost = 1;
 		} else {
-			ans += number[i] - ost - right.number[i] + '0';
+			ans += (char)(number[i] - ost - right.number[i] + '0');
 			ost = 0;
 		}
 	}
@@ -617,7 +619,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 		for (long long j = 0; j <= 10; j++) {
 			temp = divBy * j;
 			if (temp > BigSmoke(ost)) {
-				ans += j - 1 + '0';
+				ans += (char)(j - 1 + '0');
 				temp = divBy * (j - 1);
 				break;
 			}

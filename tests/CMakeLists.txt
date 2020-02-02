@@ -1,6 +1,14 @@
 cmake_minimum_required( VERSION 3.5.2 )
 project( SafeChat_Tests )
 
+# Disable MSVC warnings
+if( MSVC )
+	add_definitions(
+		-D_CRT_SECURE_NO_WARNINGS
+		-D_SCL_SECURE_NO_WARNINGS
+	)
+endif()
+
 # Sanitizers
 if( CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU" )
 	set( CMAKE_C_FLAGS	"${CMAKE_C_FLAGS} -fsanitize=address,undefined" )

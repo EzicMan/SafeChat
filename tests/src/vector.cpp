@@ -217,7 +217,7 @@ TEST_CASE("Vector::push_back()", "[vector]")
 	Vector<int> v;
 
 	for (size_t i = 1; i <= 10; i++) {
-		v.push_back(i);
+		v.push_back((int)i);
 	}
 
 	for (size_t i = 1; i <= 10; i++) {

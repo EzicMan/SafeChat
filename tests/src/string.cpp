@@ -6,9 +6,9 @@
 
 static char* reverse_str(char* buf)
 {
-	int len = strlen(buf);
-	int len2 = len / 2;
-	for (int i = 0; i < len2; i++) {
+	size_t len = strlen(buf);
+	size_t len2 = len / 2;
+	for (size_t i = 0; i < len2; i++) {
 		std::swap(buf[i], buf[len - i - 1]);
 	}
 	return buf;
@@ -60,7 +60,7 @@ TEST_CASE("String begin(), end() and []", "[string]")
 
 		auto it = str.begin();
 		auto it_end = str.end();
-		int size = str.size();
+		long long size = str.size();
 
 		int i = 0;
 
@@ -77,15 +77,15 @@ TEST_CASE("String begin(), end() and []", "[string]")
 
 	SECTION("[] bounds check")
 	{
-		for (int i = -4; i < 0; i++) {
+		for (long long i = -4; i < 0; i++) {
 			REQUIRE_THROWS_AS(str[i], std::out_of_range);
 		}
 
-		for (int i = 0; i < str.size(); i++) {
+		for (long long i = 0; i < str.size(); i++) {
 			REQUIRE_NOTHROW(str[i]);
 		}
 
-		for (int i = str.size() + 1; i < str.size() + 4; i++) {
+		for (long long i = str.size() + 1; i < str.size() + 4; i++) {
 			REQUIRE_THROWS_AS(str[i], std::out_of_range);
 		}
 	}
