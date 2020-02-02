@@ -217,7 +217,7 @@ TEST_CASE("toUpper and toLower", "[string]")
 		for (char* c = buf; *c; c++)
 			*c = toupper(*c);
 
-		String str = String(baseStr).toHigher();
+		String str = String(baseStr).toUpper();
 		REQUIRE(!strcmp(buf, str.getCharAr()));
 	}
 

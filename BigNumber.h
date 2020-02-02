@@ -20,7 +20,7 @@ public:
 	String substring(long long sindex, long long eindex) const; // gets the substring [sindex;eindex)
 	String reverse() const; // reverses the string
 	String toLower() const; // returns string with all lower symbols
-	String toHigher() const; // returns string with all higher symbols
+	String toUpper() const; // returns string with all higher symbols
 	//basic operators
 	String& operator+=(const String& right);
 	String& operator=(const String& right);

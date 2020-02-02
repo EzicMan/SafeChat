@@ -117,7 +117,7 @@ String String::toLower() const
 	return b;
 }
 
-String String::toHigher() const
+String String::toUpper() const
 {
 	String b;
 	for (long long i = 0; i < sSize; i++) {
