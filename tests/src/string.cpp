@@ -196,3 +196,40 @@ TEST_CASE("operators", "[string]")
 		}
 	}
 }
+
+TEST_CASE("toUpper and toLower", "[string]")
+{
+	// Create a string with all chars except control chars
+	char baseStr[128 + 1];
+	char buf[128 + 1];
+
+	for (int c = 1, j = 0; c < 128; c++)
+	{
+		if (!iscntrl(c) || isspace(c))
+		{
+			baseStr[j] = c;
+			baseStr[j + 1] = '\0';
+			j++;
+		}
+	}
+
+	// Test toUpper
+	{
+		strcpy(buf, baseStr);
+		for (char *c = buf; *c; c++)
+			*c = toupper(*c);
+
+		String str = String(baseStr).toHigher();
+		REQUIRE(!strcmp(buf, str.getCharAr()));
+	}
+
+	// Test toLower
+	{
+		strcpy(buf, baseStr);
+		for (char *c = buf; *c; c++)
+			*c = tolower(*c);
+
+		String str = String(baseStr).toLower();
+		REQUIRE(!strcmp(buf, str.getCharAr()));
+	}
+}
