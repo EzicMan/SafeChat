@@ -270,12 +270,6 @@ BigSmoke::BigSmoke()
 	number = String("0");
 }
 
-BigSmoke::BigSmoke(const BigSmoke& a)
-{
-	number = a.number;
-	negative = a.negative;
-}
-
 BigSmoke::BigSmoke(const String a)
 {
 	if (a.size() == 0) {
