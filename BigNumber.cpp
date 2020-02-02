@@ -6,13 +6,18 @@ long long Max(long long a, long long b)
 	return a > b ? a : b;
 }
 
-BigSmoke Power(BigSmoke a, BigSmoke b)
+BigSmoke Power(BigSmoke a, BigSmoke n)
 {
-	BigSmoke c = 1;
-	for (BigSmoke i = 0; i < b; i++) {
-		c *= a;
-	}
-	return c;
+	BigSmoke res = 1;
+	while (n != 0)
+		if (n % 2 != 0) {
+			res *= a;
+			--n;
+		} else {
+			a *= a;
+			n /= 2;
+		}
+	return res;
 }
 
 //-----------------------------------------------------

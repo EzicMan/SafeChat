@@ -11,12 +11,12 @@
 template <typename T>
 class Vector {
 public:
-	/*
+	/**
 	 * Constructs an empty vector
 	 */
 	Vector() {}
 
-	/*
+	/**
 	 * Constructs a vector of size n
 	 * @arg n Initial vector size
 	 */
@@ -34,7 +34,7 @@ public:
 		}
 	}
 
-	/*
+	/**
 	 * Constructs a vector of size n with def_val
 	 * @arg n Initial vector size
 	 * @arg def_val Value for those n elements
