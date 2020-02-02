@@ -3,6 +3,9 @@
 
 long long Max(long long a, long long b);
 
+//-----------------------------------------------------
+// String
+//-----------------------------------------------------
 class String {
 	char* string; // string itself
 	long long sSize; // size of the string(without \0)
@@ -13,14 +16,21 @@ public:
 	String(char a);
 	String(const String& a);
 	~String(); //destructor
-	const long long size() const; // returns size of the string(without \0)
-	const char* begin() const; // returns polong longer to beginning of the string
-	const char* end() const; // returns polong longer to the end of the string
+
+	long long size() const; // returns size of the string(without \0)
 	const char* getCharAr() const; // converts string to char array and returns it
+	char* getCharAr(); // converts string to char array and returns it
+
+	const char* begin() const; // returns const iterator to beginning of the string
+	const char* end() const; // returns const iterator to the end of the string
+	char* begin(); // returns iterator to beginning of the string
+	char* end(); // returns iterator to the end of the string
+
 	String substring(long long sindex, long long eindex) const; // gets the substring [sindex;eindex)
 	String reverse() const; // reverses the string
 	String toLower() const; // returns string with all lower symbols
 	String toUpper() const; // returns string with all higher symbols
+
 	//basic operators
 	String& operator+=(const String& right);
 	String& operator=(const String& right);
@@ -35,6 +45,44 @@ public:
 	friend std::istream& operator>>(std::istream& is, String& r);
 };
 
+inline long long String::size() const
+{
+	return sSize;
+}
+
+inline const char* String::getCharAr() const
+{
+	return string;
+}
+
+inline char* String::getCharAr()
+{
+	return string;
+}
+
+inline const char* String::begin() const
+{
+	return string;
+}
+
+inline const char* String::end() const
+{
+	return string + sSize;
+}
+
+inline char* String::begin()
+{
+	return string;
+}
+
+inline char* String::end()
+{
+	return string + sSize;
+}
+
+//-----------------------------------------------------
+// BigSmoke
+//-----------------------------------------------------
 class BigSmoke {
 	String number; // the number itself(CONTAINED BACKWARDS!)
 	bool negative = false; // defines if number negative or not

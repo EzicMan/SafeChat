@@ -62,26 +62,6 @@ String::~String()
 	delete[] string;
 }
 
-const long long String::size() const
-{
-	return sSize;
-}
-
-const char* String::begin() const
-{
-	return string;
-}
-
-const char* String::end() const
-{
-	return (string + sSize);
-}
-
-const char* String::getCharAr() const
-{
-	return string;
-}
-
 String String::substring(long long sindex, long long eindex) const
 {
 	String ans = "";
