@@ -91,6 +91,8 @@ String& String::operator=(String&& rhs) noexcept
 	if (&rhs == this)
 		return *this;
 
+	delete[] string;
+
 	string = rhs.string;
 	sSize = rhs.sSize;
 
