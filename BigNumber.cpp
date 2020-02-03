@@ -108,6 +108,14 @@ String::String(char a)
 	sSize = 1;
 }
 
+String::String(char a, long long times)
+{
+	_setExactCapacity(times);
+	memset(string, a, times);
+	string[times] = '\0';
+	sSize = times;
+}
+
 String::String(const String& a)
 {
 	sSize = a.size();
@@ -561,7 +569,7 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 	long long zeros = 0;
 	int ost = 0;
 	for (long long i = 0; i < size2; i++) {
-		String curstep = String("0") * (zeros + size1 + 1);
+		String curstep = String('0', zeros + size1 + 1);
 		for (long long j = 0; j < size1; j++) {
 			int num = (number[j] - '0') * (right.number[i] - '0') + ost;
 			curstep[zeros + j] = (num % 10 + '0');

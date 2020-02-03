@@ -12,6 +12,7 @@ public:
 	String();
 	String(const char* a);
 	String(char a);
+	String(char a, long long times);
 
 	String(const String& a);
 	String(String&& rhs) noexcept;
