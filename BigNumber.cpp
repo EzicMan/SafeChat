@@ -555,38 +555,28 @@ BigSmoke BigSmoke::operator--(int)
 
 BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 {
-	long long size1 = this->size();
+	long long size1 = size();
 	long long size2 = right.size();
-	if (right.negative) {
-		this->negative = !this->negative;
-	}
-	BigSmoke newNum = 0;
+	BigSmoke ans = 0;
 	long long zeros = 0;
+	int ost = 0;
 	for (long long i = 0; i < size2; i++) {
-		long long ost = 0;
-		String curstate;
-		if (zeros != 0) {
-			curstate = String("0") * zeros;
-		} else {
-			curstate = "";
-		}
+		String curstep = String("0") * (zeros + size1 + 1);
 		for (long long j = 0; j < size1; j++) {
-			long long num = (number[j] - '0') * (right.number[i] - '0');
-			num += ost;
+			int num = (number[j] - '0') * (right.number[i] - '0') + ost;
+			curstep[zeros + j] = (num % 10 + '0');
 			ost = num / 10;
-			num %= 10;
-			curstate += (char)(num + '0');
 		}
-		if (ost != 0) {
-			curstate += (char)(ost + '0');
-		}
-		newNum += BigSmoke(curstate.reverse());
+		curstep[zeros + size1] = ost + '0';
+		curstep = curstep.reverse();
 		zeros++;
+		ans += curstep;
+		ost = 0;
 	}
-	newNum.normalize();
-	number = newNum.number;
-	if (number == "0") {
-		negative = false;
+	ans.negative = negative;
+	*this = ans;
+	if (right.negative && *this != 0) {
+		this->negative = !this->negative;
 	}
 	return *this;
 }
