@@ -24,12 +24,61 @@ BigSmoke Power(BigSmoke a, BigSmoke n)
 //-----------------------------------------------------
 // String
 //-----------------------------------------------------
+char String::m_sEmptyString[16] = {};
+
 String::String(DummyStruct) {}
+
+void String::_setCapacity(long long n)
+{
+	if (n > m_iCapacity) {
+		if (m_iCapacity <= 0)
+			m_iCapacity = 1;
+
+		// This code doubles m_iCapacity enough times to be >= n.
+		// m_iCapacity * 2^x >= n
+		long long newCap = (n / m_iCapacity) + 1;
+		newCap = 2LL << int(log2(newCap));
+		newCap = m_iCapacity * newCap;
+
+		assert(newCap >= n);
+
+		_setExactCapacity(newCap);
+	}
+}
+
+void String::_setExactCapacity(long long n)
+{
+	char* newMem = _allocateMemBlock(n + 1);
+	if (string) {
+		memcpy(newMem, string, sSize + 1);
+		_freeMemBlock(string);
+	}
+	string = newMem;
+	m_iCapacity = n;
+}
+
+void String::_freeStringMem()
+{
+	_freeMemBlock(string);
+	string = nullptr;
+	sSize = -1;
+	m_iCapacity = -1;
+}
+
+char* String::_allocateMemBlock(long long n)
+{
+	return new char[n];
+}
+
+void String::_freeMemBlock(char* mem)
+{
+	if (mem != m_sEmptyString)
+		delete[] mem;
+}
 
 String::String()
 {
-	string = new char[1];
-	string[0] = '\0';
+	string = m_sEmptyString;
 	sSize = 0;
 }
 
@@ -45,13 +94,13 @@ String::String(const char* a)
 		i++;
 	}
 	sSize = n;
-	string = new char[sSize + 1];
+	_setExactCapacity(sSize);
 	memcpy(string, a, sSize + 1);
 }
 
 String::String(char a)
 {
-	string = new char[2];
+	_setExactCapacity(1);
 	string[0] = a;
 	string[1] = '\0';
 	sSize = 1;
@@ -60,23 +109,24 @@ String::String(char a)
 String::String(const String& a)
 {
 	sSize = a.size();
-	const char* b = a.getCharAr();
-	string = new char[sSize + 1];
-	memcpy(string, b, sSize + 1);
+	_setExactCapacity(sSize);
+	memcpy(string, a.getCharAr(), sSize + 1);
 }
 
 String::String(String&& rhs) noexcept
 {
 	string = rhs.string;
 	sSize = rhs.sSize;
+	m_iCapacity = rhs.m_iCapacity;
 
 	rhs.string = nullptr;
 	rhs.sSize = -1;
+	rhs.m_iCapacity = -1;
 }
 
 String::~String()
 {
-	delete[] string;
+	_freeStringMem();
 }
 
 String& String::operator=(const String& rhs)
@@ -84,10 +134,10 @@ String& String::operator=(const String& rhs)
 	if (&rhs == this)
 		return *this;
 
-	delete[] string;
+	_freeStringMem();
 
 	sSize = rhs.size();
-	string = new char[sSize + 1];
+	_setExactCapacity(sSize);
 	memcpy(string, rhs.getCharAr(), sSize + 1);
 
 	return *this;
@@ -98,13 +148,15 @@ String& String::operator=(String&& rhs) noexcept
 	if (&rhs == this)
 		return *this;
 
-	delete[] string;
+	_freeStringMem();
 
 	string = rhs.string;
 	sSize = rhs.sSize;
+	m_iCapacity = rhs.m_iCapacity;
 
 	rhs.string = nullptr;
 	rhs.sSize = -1;
+	rhs.m_iCapacity = -1;
 
 	return *this;
 }
@@ -121,7 +173,7 @@ String String::substring(long long sindex, long long eindex) const
 	String ret(DummyStruct {});
 	ret.sSize = eindex - sindex;
 
-	ret.string = new char[ret.sSize + 1];
+	ret._setExactCapacity(ret.sSize);
 	memcpy(ret.string, string + sindex, ret.sSize);
 	ret.string[ret.sSize] = '\0';
 
@@ -167,18 +219,12 @@ String String::toUpper() const
 	return b;
 }
 
-String& String::operator+=(const String& right)
+String& String::operator+=(const String& rhs)
 {
-	const char* a = right.getCharAr();
-	const long long aSize = right.size();
-	char* oldString = string;
-	string = new char[sSize + aSize + 1];
-	memcpy(string, oldString, sSize);
-	delete[] oldString;
-	for (long long i = sSize; i <= sSize + aSize; i++) {
-		string[i] = a[i - sSize];
-	}
-	sSize = sSize + aSize;
+	_setCapacity(sSize + rhs.sSize);
+	memcpy(string + sSize, rhs.string, rhs.sSize + 1);
+	sSize = sSize + rhs.sSize;
+
 	return *this;
 }
 
@@ -208,16 +254,18 @@ String& String::operator*=(long long times)
 	if (times < 0) {
 		throw std::invalid_argument("Can't multiply by negative numbers");
 	}
-	char* oldString = string;
-	string = new char[sSize * times + 1];
-	if (times == 0) {
-		string[0] = '\0';
+
+	_setCapacity(sSize * times);
+
+	char* ptr = string + sSize;
+	for (int i = 0; i < times - 1; i++) {
+		memcpy(ptr, string, sSize);
+		ptr += sSize;
 	}
-	for (long long i = 0; i < times; i++) {
-		memcpy(string + i * sSize, oldString, sSize + 1);
-	}
-	delete[] oldString;
+
 	sSize = sSize * times;
+	string[sSize] = '\0';
+
 	return *this;
 }
 

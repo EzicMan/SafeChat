@@ -60,18 +60,52 @@ private:
 	/**
 	 * Points to `new char[]` allocated block of memory containing the string.
 	 */
-	char* string;
+	char* string = nullptr;
 
 	/**
 	 * Length of the string.
+	 */
+	long long sSize = 0;
+
+	/**
 	 * Size of allocated memory excluding null terminator.
 	 */
-	long long sSize;
+	long long m_iCapacity = 0;
 
 	/**
 	 * Uninitialized string constructor for internal optimizations.
 	 */
 	String(DummyStruct);
+
+	/**
+	 * Adjusts capacity to hold at least n chars.
+	 */
+	void _setCapacity(long long n);
+
+	/**
+	 * Adjusts capacity to hold exactly n chars.
+	 */
+	void _setExactCapacity(long long n);
+
+	/**
+	 * Frees all memory allocated by the string and leaves the string in unusable state.
+	 */
+	void _freeStringMem();
+
+	/**
+	 * Allocates memory chunk of size n.
+	 */
+	static char* _allocateMemBlock(long long n);
+
+	/**
+	 * Frees memory chunk allocated with _allocateMemBlock.
+	 */
+	static void _freeMemBlock(char* mem);
+
+	/**
+	 * Empty string. Must be all zeroes.
+	 */
+	static char m_sEmptyString[16];
 };
 
 inline long long String::size() const
