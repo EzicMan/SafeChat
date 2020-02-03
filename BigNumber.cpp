@@ -585,8 +585,11 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 	}
 	ans.negative = negative;
 	*this = ans;
-	if (right.negative && *this != 0) {
+	if (right.negative) {
 		this->negative = !this->negative;
+	}
+	if (*this == 0) {
+		negative = false;
 	}
 	return *this;
 }
