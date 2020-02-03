@@ -230,6 +230,16 @@ String& String::operator+=(const String& rhs)
 	return *this;
 }
 
+String &String::operator+=(char c)
+{
+	_setCapacity(sSize + 1);
+	string[sSize] = c;
+	string[sSize + 1] = '\0';
+	sSize = sSize + 1;
+
+	return *this;
+}
+
 bool String::operator==(const String& right) const
 {
 	if (right.size() != this->size()) {
@@ -821,4 +831,65 @@ std::ostream& operator<<(std::ostream& os, const BigSmoke& r)
 	}
 	os << r.number.reverse().getCharAr();
 	return os;
+}
+
+BigSmoke CalcGCD(BigSmoke a, BigSmoke b)
+{
+	while (b != 0) {
+		a %= b;
+
+		// swap(a, b);
+		BigSmoke t = a;
+		a = std::move(b);
+		b = std::move(t);
+	}
+	return a;
+}
+
+BigSmoke CalcLCM(const BigSmoke &a, const BigSmoke &b)
+{
+	return a / CalcGCD(a, b) * b;
+}
+
+ExtendedGCDOut CalcExtendedGCD(const BigSmoke &a, const BigSmoke &b, const BigSmoke &m)
+{
+	if (a == 0)
+		return ExtendedGCDOut{ 0, 1, b };
+
+	ExtendedGCDOut hren = CalcExtendedGCD(b % a, a, m);
+
+	ExtendedGCDOut ret = ExtendedGCDOut{
+		(hren.y - (ModuloDiv(b, a, m) * hren.x) % m) % m,
+		hren.x % m,
+		hren.gcd
+	};
+	return ret;
+}
+
+BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke &m)
+{
+	a %= m;
+	n %= m;
+
+	BigSmoke res = 1;
+	while (n != 0)
+		if (n % 2 != 0) {
+			res = (res * a) % m;
+			--n;
+		}
+		else {
+			a = (a * a) % m;
+			n /= 2;
+		}
+	return res;
+}
+
+static BigSmoke inverse_element(const BigSmoke &x, const BigSmoke &m)
+{
+	return ModuloPower(x, m - 2, m);
+}
+
+BigSmoke ModuloDiv(const BigSmoke &a, const BigSmoke &b, const BigSmoke &m)
+{
+	return a * inverse_element(b, m) % m;
 }

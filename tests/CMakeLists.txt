@@ -20,10 +20,12 @@ endif()
 set( LIBSAFECHAT_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/../BigNumber.h"
 	"${CMAKE_CURRENT_SOURCE_DIR}/../Vector.h"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../rsa.h"
 )
 
 set( LIBSAFECHAT_SOURCE_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/../BigNumber.cpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../rsa.cpp"
 )
 
 add_library( safechat STATIC
