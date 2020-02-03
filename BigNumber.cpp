@@ -1,6 +1,8 @@
-#include "BigNumber.h"
 #include <cassert>
+#include <cmath>
 #include <cstring>
+
+#include "BigNumber.h"
 
 long long Max(long long a, long long b)
 {
