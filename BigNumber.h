@@ -7,16 +7,6 @@ long long Max(long long a, long long b);
 // String
 //-----------------------------------------------------
 class String {
-	struct DummyStruct {
-	};
-
-	char* string; // string itself
-	long long sSize; // size of the string(without \0)
-
-	// uninitialized string constructor for
-	// internal optimizations.
-	String(DummyStruct);
-
 public:
 	//constructors
 	String();
@@ -58,6 +48,30 @@ public:
 	char& operator[](long long index) const;
 	friend std::ostream& operator<<(std::ostream& os, const String& r);
 	friend std::istream& operator>>(std::istream& is, String& r);
+
+private:
+	/**
+	 * Dummy struct used as an argument for private constructor.
+	 * @see String(DummyStruct)
+	 */
+	struct DummyStruct {
+	};
+
+	/**
+	 * Points to `new char[]` allocated block of memory containing the string.
+	 */
+	char* string;
+
+	/**
+	 * Length of the string.
+	 * Size of allocated memory excluding null terminator.
+	 */
+	long long sSize;
+
+	/**
+	 * Uninitialized string constructor for internal optimizations.
+	 */
+	String(DummyStruct);
 };
 
 inline long long String::size() const
