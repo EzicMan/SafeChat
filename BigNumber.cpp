@@ -230,7 +230,7 @@ String& String::operator+=(const String& rhs)
 	return *this;
 }
 
-String &String::operator+=(char c)
+String& String::operator+=(char c)
 {
 	_setCapacity(sSize + 1);
 	string[sSize] = c;
@@ -846,19 +846,19 @@ BigSmoke CalcGCD(BigSmoke a, BigSmoke b)
 	return a;
 }
 
-BigSmoke CalcLCM(const BigSmoke &a, const BigSmoke &b)
+BigSmoke CalcLCM(const BigSmoke& a, const BigSmoke& b)
 {
 	return a / CalcGCD(a, b) * b;
 }
 
-ExtendedGCDOut CalcExtendedGCD(const BigSmoke &a, const BigSmoke &b, const BigSmoke &m)
+ExtendedGCDOut CalcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
 {
 	if (a == 0)
-		return ExtendedGCDOut{ 0, 1, b };
+		return ExtendedGCDOut { 0, 1, b };
 
 	ExtendedGCDOut hren = CalcExtendedGCD(b % a, a, m);
 
-	ExtendedGCDOut ret = ExtendedGCDOut{
+	ExtendedGCDOut ret = ExtendedGCDOut {
 		(hren.y - (ModuloDiv(b, a, m) * hren.x) % m) % m,
 		hren.x % m,
 		hren.gcd
@@ -866,7 +866,7 @@ ExtendedGCDOut CalcExtendedGCD(const BigSmoke &a, const BigSmoke &b, const BigSm
 	return ret;
 }
 
-BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke &m)
+BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke& m)
 {
 	a %= m;
 	n %= m;
@@ -876,20 +876,19 @@ BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke &m)
 		if (n % 2 != 0) {
 			res = (res * a) % m;
 			--n;
-		}
-		else {
+		} else {
 			a = (a * a) % m;
 			n /= 2;
 		}
 	return res;
 }
 
-static BigSmoke inverse_element(const BigSmoke &x, const BigSmoke &m)
+static BigSmoke inverse_element(const BigSmoke& x, const BigSmoke& m)
 {
 	return ModuloPower(x, m - 2, m);
 }
 
-BigSmoke ModuloDiv(const BigSmoke &a, const BigSmoke &b, const BigSmoke &m)
+BigSmoke ModuloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
 {
 	return a * inverse_element(b, m) % m;
 }

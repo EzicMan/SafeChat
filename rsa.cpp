@@ -20,7 +20,8 @@ rsa::Key::Key()
 	e = s_StandartE;
 }
 
-rsa::Key::Key(const BigSmoke &p_val, const BigSmoke &q_val) : Key()
+rsa::Key::Key(const BigSmoke& p_val, const BigSmoke& q_val)
+    : Key()
 {
 	p = p_val;
 	q = q_val;
@@ -34,13 +35,12 @@ rsa::Key::Key(const BigSmoke &p_val, const BigSmoke &q_val) : Key()
 	d = out.x;
 }
 
-BigSmoke rsa::StringToNumber(const char *data)
+BigSmoke rsa::StringToNumber(const char* data)
 {
 	// TODO: Remove to hex conversion
 	String dataHex = "0x";
 
-	for (uint8_t *c = (uint8_t *)data; *c; c++)
-	{
+	for (uint8_t* c = (uint8_t*)data; *c; c++) {
 		dataHex += s_HexTable[(*c & 0xF0) >> 4];
 		dataHex += s_HexTable[(*c & 0x0F) >> 0];
 	}
@@ -48,7 +48,7 @@ BigSmoke rsa::StringToNumber(const char *data)
 	return BigSmoke(dataHex);
 }
 
-BigSmoke rsa::Encrypt(const BigSmoke &m, const Key &key)
+BigSmoke rsa::Encrypt(const BigSmoke& m, const Key& key)
 {
 	if (m >= key.n)
 		throw std::invalid_argument("message < key.n");
@@ -56,7 +56,7 @@ BigSmoke rsa::Encrypt(const BigSmoke &m, const Key &key)
 	return ModuloPower(m, key.e, key.n);
 }
 
-BigSmoke rsa::DecryptAsNumber(const BigSmoke &encr, const Key &key)
+BigSmoke rsa::DecryptAsNumber(const BigSmoke& encr, const Key& key)
 {
 	return ModuloPower(encr, key.d, key.n);
 }
