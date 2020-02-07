@@ -568,19 +568,17 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 	BigSmoke ans = 0;
 	long long zeros = 0;
 	int ost = 0;
+	String curstep = String('0', size1 + size2);
 	for (long long i = 0; i < size2; i++) {
-		String curstep = String('0', zeros + size1 + 1);
 		for (long long j = 0; j < size1; j++) {
-			int num = (number[j] - '0') * (right.number[i] - '0') + ost;
-			curstep[zeros + j] = (num % 10 + '0');
+			int num = (number[j] - '0') * (right.number[i] - '0') + ost + curstep[i + j] - '0';
+			curstep[i + j] = num % 10 + '0';
 			ost = num / 10;
 		}
-		curstep[zeros + size1] = ost + '0';
-		curstep = curstep.reverse();
-		zeros++;
-		ans += curstep;
+		curstep[size1 + i] = ost + '0';
 		ost = 0;
 	}
+	ans = curstep.reverse();
 	ans.negative = negative;
 	*this = ans;
 	if (right.negative) {
