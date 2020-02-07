@@ -653,36 +653,44 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	String ost = "";
 	long long i = 0;
 	long long z = 0;
+	String this_reversed = number.reverse();
+
 	while (i < number.size()) {
 		while (BigSmoke(ost) < divBy && i < number.size()) {
-			ost += number.reverse()[i];
+			ost += this_reversed[i];
 			i++;
 			z++;
 		}
-		if (BigSmoke(ost) < divBy) {
-			ans += String("0") * z;
+
+		BigSmoke ost_big(ost);
+
+		if (ost_big < divBy) {
+			ans += String('0', z);
 			break;
 		}
 		if (ans != "") {
-			ans += String("0") * (z - 1);
+			ans += String('0', z - 1);
 		}
 		z = 0;
 		BigSmoke temp = 0;
 		for (long long j = 0; j <= 10; j++) {
 			temp = divBy * j;
-			if (temp > BigSmoke(ost)) {
+			if (temp > ost_big) {
 				ans += (char)(j - 1 + '0');
 				temp = divBy * (j - 1);
 				break;
 			}
 		}
-		temp = BigSmoke(ost) - temp;
+		temp = ost_big - temp;
 		ost = temp.number.reverse();
 	}
 	number = ans.reverse();
 	if (negative && BigSmoke(ost) != 0) {
 		*this -= 1;
 	}
+
+	normalize();
+
 	return *this;
 }
 
