@@ -405,7 +405,7 @@ TEST_CASE("decrement suffix and prefix -- --", "[bigsmoke]")
 
 TEST_CASE("HEX", "[bigsmoke]")
 {
-	for (unsigned int i = 0; i <= 0xFFFFFF; i += 0x1EA5 ) {
+	for (unsigned int i = 0; i <= 0xFFFFFF; i += 0x1EA5) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "0x%X", i);
 
