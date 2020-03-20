@@ -1,3 +1,74 @@
+//                          _
+//  _._ _..._ .-',     _.._(`))
+// '-. `     '  /-._.-'    ',/
+//    )         \            '.
+//   / _    _    |             \
+//  |  a    a    /              |
+//  \   .-.                     ;
+//   '-('' ).-'       ,'       ;
+//      '-;           |      .'
+//         \           \    /
+//         | 7  .__  _.-\   \
+//         | |  |  ``/  /`  /
+//        /,_|  |   /,_/   /
+//           /,_/      '`-'
+//
+// Safety Pig Igor warns you: this code is unreadable and full of kostils.
+// Listen to Safety Pig Igor and close the source code file right now.
+// If you really want to continue, please consider taking Igor with yourself in case
+// you need immediate medical help.
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// And you WILL need it.
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Memetic kill agent activated. 7 days.
+//
+
 #include <cassert>
 #include <cmath>
 #include <cstring>
