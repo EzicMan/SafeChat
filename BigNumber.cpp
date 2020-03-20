@@ -8,6 +8,10 @@ long long Max(long long a, long long b)
 {
 	return a > b ? a : b;
 }
+long long Min(long long a, long long b)
+{
+	return a < b ? a : b;
+}
 
 BigSmoke Power(BigSmoke a, BigSmoke n)
 {
@@ -649,29 +653,14 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	}
 	BigSmoke divBy = right.abs();
 	String ans = "";
-	long long k = 0;
 	String ost = "";
 	long long i = 0;
-	long long z = 0;
 	String this_reversed = number.reverse();
 
 	while (i < number.size()) {
-		while (BigSmoke(ost) < divBy && i < number.size()) {
-			ost += this_reversed[i];
-			i++;
-			z++;
-		}
-
+		ost += this_reversed[i];
+		i++;
 		BigSmoke ost_big(ost);
-
-		if (ost_big < divBy) {
-			ans += String('0', z);
-			break;
-		}
-		if (ans != "") {
-			ans += String('0', z - 1);
-		}
-		z = 0;
 		BigSmoke temp = 0;
 		for (long long j = 0; j <= 10; j++) {
 			temp = divBy * j;
@@ -696,6 +685,10 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 
 BigSmoke& BigSmoke::operator%=(const BigSmoke& right)
 {
+	if (right == 2) {
+		*this = BigSmoke((this->number[0] - '0') % 2);
+		return *this;
+	}
 	BigSmoke temp = *this / right;
 	temp *= right;
 	*this -= temp;

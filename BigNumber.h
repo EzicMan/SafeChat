@@ -2,6 +2,7 @@
 #include <iostream>
 
 long long Max(long long a, long long b);
+long long Min(long long a, long long b);
 
 //-----------------------------------------------------
 // String
