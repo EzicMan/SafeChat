@@ -405,7 +405,7 @@ TEST_CASE("decrement suffix and prefix -- --", "[bigsmoke]")
 
 TEST_CASE("HEX", "[bigsmoke]")
 {
-	for (unsigned int i = 0; i <= 0xFFFFFF; i += 0x7A95) {
+	for (unsigned int i = 0; i <= 0xFFFFFF; i += 0x1EA5) {
 		char buf[128];
 		snprintf(buf, sizeof(buf), "0x%X", i);
 
@@ -413,5 +413,19 @@ TEST_CASE("HEX", "[bigsmoke]")
 		String hex(number.asHexString());
 
 		REQUIRE(!strcmp(hex.getCharAr(), buf));
+	}
+}
+
+TEST_CASE("div_loop", "[bigsmoke]")
+{
+	for (long long i = 0, num1 = 1; i < 1000; i++, num1 += 4283) {
+		for (long long j = 0, num2 = 1; j < 100; j++, num2 += 4283) {
+			BigSmoke n1(num1);
+			BigSmoke n2(num2);
+
+			BigSmoke bigRes = n1 / n2;
+			long long res = num1 / num2;
+			REQUIRE(bigRes == res);
+		}
 	}
 }

@@ -2,6 +2,7 @@
 #include <iostream>
 
 long long Max(long long a, long long b);
+long long Min(long long a, long long b);
 
 //-----------------------------------------------------
 // String
@@ -12,6 +13,7 @@ public:
 	String();
 	String(const char* a);
 	String(char a);
+	String(char a, long long times);
 
 	String(const String& a);
 	String(String&& rhs) noexcept;

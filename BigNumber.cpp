@@ -1,3 +1,74 @@
+//                          _
+//  _._ _..._ .-',     _.._(`))
+// '-. `     '  /-._.-'    ',/
+//    )         \            '.
+//   / _    _    |             \
+//  |  a    a    /              |
+//  \   .-.                     ;
+//   '-('' ).-'       ,'       ;
+//      '-;           |      .'
+//         \           \    /
+//         | 7  .__  _.-\   \
+//         | |  |  ``/  /`  /
+//        /,_|  |   /,_/   /
+//           /,_/      '`-'
+//
+// Safety Pig Igor warns you: this code is unreadable and full of kostils.
+// Listen to Safety Pig Igor and close the source code file right now.
+// If you really want to continue, please consider taking Igor with yourself in case
+// you need immediate medical help.
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// And you WILL need it.
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// Memetic kill agent activated. 7 days.
+//
+
 #include <cassert>
 #include <cmath>
 #include <cstring>
@@ -7,6 +78,10 @@
 long long Max(long long a, long long b)
 {
 	return a > b ? a : b;
+}
+long long Min(long long a, long long b)
+{
+	return a < b ? a : b;
 }
 
 BigSmoke Power(BigSmoke a, BigSmoke n)
@@ -106,6 +181,14 @@ String::String(char a)
 	string[0] = a;
 	string[1] = '\0';
 	sSize = 1;
+}
+
+String::String(char a, long long times)
+{
+	_setExactCapacity(times);
+	memset(string, a, times);
+	string[times] = '\0';
+	sSize = times;
 }
 
 String::String(const String& a)
@@ -570,19 +653,17 @@ BigSmoke& BigSmoke::operator*=(const BigSmoke& right)
 	BigSmoke ans = 0;
 	long long zeros = 0;
 	int ost = 0;
+	String curstep = String('0', size1 + size2);
 	for (long long i = 0; i < size2; i++) {
-		String curstep = String("0") * (zeros + size1 + 1);
 		for (long long j = 0; j < size1; j++) {
-			int num = (number[j] - '0') * (right.number[i] - '0') + ost;
-			curstep[zeros + j] = (num % 10 + '0');
+			int num = (number[j] - '0') * (right.number[i] - '0') + ost + curstep[i + j] - '0';
+			curstep[i + j] = num % 10 + '0';
 			ost = num / 10;
 		}
-		curstep[zeros + size1] = ost + '0';
-		curstep = curstep.reverse();
-		zeros++;
-		ans += curstep;
+		curstep[size1 + i] = ost + '0';
 		ost = 0;
 	}
+	ans = curstep.reverse();
 	ans.negative = negative;
 	*this = ans;
 	if (right.negative) {
@@ -653,45 +734,42 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	}
 	BigSmoke divBy = right.abs();
 	String ans = "";
-	long long k = 0;
 	String ost = "";
 	long long i = 0;
-	long long z = 0;
+	String this_reversed = number.reverse();
+
 	while (i < number.size()) {
-		while (BigSmoke(ost) < divBy && i < number.size()) {
-			ost += number.reverse()[i];
-			i++;
-			z++;
-		}
-		if (BigSmoke(ost) < divBy) {
-			ans += String("0") * z;
-			break;
-		}
-		if (ans != "") {
-			ans += String("0") * (z - 1);
-		}
-		z = 0;
+		ost += this_reversed[i];
+		i++;
+		BigSmoke ost_big(ost);
 		BigSmoke temp = 0;
 		for (long long j = 0; j <= 10; j++) {
 			temp = divBy * j;
-			if (temp > BigSmoke(ost)) {
+			if (temp > ost_big) {
 				ans += (char)(j - 1 + '0');
 				temp = divBy * (j - 1);
 				break;
 			}
 		}
-		temp = BigSmoke(ost) - temp;
+		temp = ost_big - temp;
 		ost = temp.number.reverse();
 	}
 	number = ans.reverse();
 	if (negative && BigSmoke(ost) != 0) {
 		*this -= 1;
 	}
+
+	normalize();
+
 	return *this;
 }
 
 BigSmoke& BigSmoke::operator%=(const BigSmoke& right)
 {
+	if (right == 2) {
+		*this = BigSmoke((this->number[0] - '0') % 2);
+		return *this;
+	}
 	BigSmoke temp = *this / right;
 	temp *= right;
 	*this -= temp;
