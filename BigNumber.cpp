@@ -526,7 +526,7 @@ String BigSmoke::toString() const
 	return ans.reverse();
 }
 
-String BigSmoke::asHexString() const
+String BigSmoke::asHexString(bool evenCharCount) const
 {
 	String ans = "";
 	BigSmoke num = *this;
@@ -546,6 +546,10 @@ String BigSmoke::asHexString() const
 	} else {
 		ans += num.toString()[0];
 	}
+
+	if (evenCharCount && ans.size() % 2 != 0)
+		ans += '0';
+
 	ans += "x0";
 	return ans.reverse();
 }

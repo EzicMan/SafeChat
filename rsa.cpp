@@ -27,14 +27,45 @@ rsa::Key::Key(const BigSmoke& p_val, const BigSmoke& q_val)
 	q = q_val;
 	n = p * q;
 
-	// Calc lambda(n)
-	l = CalcLCM(p - 1, q - 1);
+	BigSmoke t = (p - 1) * (q - 1);
 
 	// Calc d
-	ExtendedGCDOut out = CalcExtendedGCD(e, l, l);
-	d = out.x;
+	BigSmoke t = (p - 1) * (q - 1);
+	d = CalcD(e, t);
+
+	// Calc max msg size
+	{
+		String smsg = "0xFF";
+		BigSmoke msg = smsg;
+		for (maxMsgSize = 1; msg < n; maxMsgSize++, smsg += "FF", msg = smsg)
+			;
+		maxMsgSize--;
+	}
 }
 
+bool rsa::Key::CanBeEncrypted(const BigSmoke& msg) const
+{
+	return msg < n;
+}
+
+BigSmoke rsa::Key::CalcD(BigSmoke e, BigSmoke t)
+{
+	BigSmoke d;
+	BigSmoke k = 1;
+
+	while (true) {
+		k = k + t;
+
+		if (k % e == 0) {
+			d = (k / e);
+			return d;
+		}
+	}
+}
+
+//-----------------------------------------------------
+// RSA
+//-----------------------------------------------------
 BigSmoke rsa::StringToNumber(const char* data)
 {
 	// TODO: Remove to hex conversion
@@ -45,13 +76,31 @@ BigSmoke rsa::StringToNumber(const char* data)
 		dataHex += s_HexTable[(*c & 0x0F) >> 0];
 	}
 
+	dataHex += "00";
+
 	return BigSmoke(dataHex);
+}
+
+String rsa::NumberToString(const BigSmoke& num)
+{
+	String out;
+	String hex = num.asHexString(true);
+
+	for (int i = 2; i < hex.size(); i += 2) {
+		char buf[] = { hex[i], hex[i + 1], '\0' };
+		char c = (char)(strtol(buf, nullptr, 16));
+		if (c == '\0')
+			break;
+		out += c;
+	}
+
+	return out;
 }
 
 BigSmoke rsa::Encrypt(const BigSmoke& m, const Key& key)
 {
-	if (m >= key.n)
-		throw std::invalid_argument("message < key.n");
+	if (!key.CanBeEncrypted(m))
+		throw std::invalid_argument("message is too big for modulus");
 
 	return ModuloPower(m, key.e, key.n);
 }

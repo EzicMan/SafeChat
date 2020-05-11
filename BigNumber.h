@@ -158,7 +158,7 @@ public:
 	BigSmoke(const String a);
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
-	String asHexString() const; // returns number as hex string
+	String asHexString(bool evenCharCount = false) const; // returns number as hex string
 	BigSmoke abs() const; //returns absolute value of number
 	const long long size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive
