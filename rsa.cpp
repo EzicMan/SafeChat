@@ -27,11 +27,9 @@ rsa::Key::Key(const BigSmoke& p_val, const BigSmoke& q_val)
 	q = q_val;
 	n = p * q;
 
-	BigSmoke t = (p - 1) * (q - 1);
-
 	// Calc d
 	BigSmoke t = (p - 1) * (q - 1);
-	d = CalcD(e, t);
+	d = calcD(e, t);
 
 	// Calc max msg size
 	{
@@ -43,12 +41,12 @@ rsa::Key::Key(const BigSmoke& p_val, const BigSmoke& q_val)
 	}
 }
 
-bool rsa::Key::CanBeEncrypted(const BigSmoke& msg) const
+bool rsa::Key::canBeEncrypted(const BigSmoke& msg) const
 {
 	return msg < n;
 }
 
-BigSmoke rsa::Key::CalcD(BigSmoke e, BigSmoke t)
+BigSmoke rsa::Key::calcD(BigSmoke e, BigSmoke t)
 {
 	BigSmoke d;
 	BigSmoke k = 1;
@@ -66,7 +64,7 @@ BigSmoke rsa::Key::CalcD(BigSmoke e, BigSmoke t)
 //-----------------------------------------------------
 // RSA
 //-----------------------------------------------------
-BigSmoke rsa::StringToNumber(const char* data)
+BigSmoke rsa::stringToNumber(const char* data)
 {
 	// TODO: Remove to hex conversion
 	String dataHex = "0x";
@@ -81,7 +79,7 @@ BigSmoke rsa::StringToNumber(const char* data)
 	return BigSmoke(dataHex);
 }
 
-String rsa::NumberToString(const BigSmoke& num)
+String rsa::numberToString(const BigSmoke& num)
 {
 	String out;
 	String hex = num.asHexString(true);
@@ -97,15 +95,15 @@ String rsa::NumberToString(const BigSmoke& num)
 	return out;
 }
 
-BigSmoke rsa::Encrypt(const BigSmoke& m, const Key& key)
+BigSmoke rsa::encrypt(const BigSmoke& m, const Key& key)
 {
-	if (!key.CanBeEncrypted(m))
+	if (!key.canBeEncrypted(m))
 		throw std::invalid_argument("message is too big for modulus");
 
 	return ModuloPower(m, key.e, key.n);
 }
 
-BigSmoke rsa::DecryptAsNumber(const BigSmoke& encr, const Key& key)
+BigSmoke rsa::decryptAsNumber(const BigSmoke& encr, const Key& key)
 {
 	return ModuloPower(encr, key.d, key.n);
 }

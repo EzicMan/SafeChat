@@ -37,32 +37,32 @@ public:
 	/**
 	 * Returns true if specified message can be encrypted with this key (that is, msg < n).
 	 */
-	bool CanBeEncrypted(const BigSmoke& msg) const;
+	bool canBeEncrypted(const BigSmoke& msg) const;
 
 private:
-	static BigSmoke CalcD(BigSmoke e, BigSmoke t);
+	static BigSmoke calcD(BigSmoke e, BigSmoke t);
 };
 
 /**
  * Takes a null-terminated sequence of bytes and converts them into BigSmoke.
  * Keeps a null byte at the end of the output.
  */
-BigSmoke StringToNumber(const char* data);
+BigSmoke stringToNumber(const char* data);
 
 /**
  * Takes a number created by StringToNumber and converts it back to a string.
  */
-String NumberToString(const BigSmoke& num);
+String numberToString(const BigSmoke& num);
 
 /**
  * Encrypts big number with a key and returns encrypted message as a large number.
  * Key needs to have e and n set.
  */
-BigSmoke Encrypt(const BigSmoke& m, const Key& key);
+BigSmoke encrypt(const BigSmoke& m, const Key& key);
 
 /**
  * Decrypts data with a key and returns decrypted message as a large number.
  * Key needs to have d and n set.
  */
-BigSmoke DecryptAsNumber(const BigSmoke& encr, const Key& key);
+BigSmoke decryptAsNumber(const BigSmoke& encr, const Key& key);
 }
