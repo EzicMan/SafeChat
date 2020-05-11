@@ -43,6 +43,7 @@ add_executable( safechat_tests
 	src/string.cpp
 	src/bigsmoke.cpp
 	src/vector.cpp
+	src/rsa.cpp
 )
 
 target_link_libraries( safechat_tests
