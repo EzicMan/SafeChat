@@ -41,6 +41,7 @@ public:
 
 	//basic operators
 	String& operator+=(const String& right);
+	String& operator+=(char c);
 	bool operator==(const String& right) const;
 	bool operator!=(const String& right) const;
 	String& operator*=(long long times);
@@ -157,8 +158,8 @@ public:
 	BigSmoke(const String a);
 	BigSmoke(const long long a);
 	String toString() const; //convert number to string and returns it
-	String asHexString() const; // returns number as hex string
 	String asBinaryString() const; // returns number as binary string
+	String asHexString(bool evenCharCount = false) const; // returns number as hex string
 	BigSmoke abs() const; //returns absolute value of number
 	const long long size() const; // returns size of the number
 	const bool isNegative() const; // returns true if number negative or false if positive
@@ -188,3 +189,41 @@ public:
 	bool operator<=(const BigSmoke& right) const;
 	friend std::ostream& operator<<(std::ostream& os, const BigSmoke& r);
 };
+
+/**
+ * Greatest Common Divisor
+ */
+BigSmoke CalcGCD(BigSmoke a, BigSmoke b);
+
+/**
+ * Least Common Multiple
+ */
+BigSmoke CalcLCM(const BigSmoke& a, const BigSmoke& b);
+
+struct ExtendedGCDOut {
+	/**
+	 * Bezout coefficients
+	 */
+	BigSmoke x, y;
+
+	/**
+	 * GCD
+	 */
+	BigSmoke gcd;
+};
+
+/**
+ * Greatest Common Divisor
+ * @arg m Modulo
+ */
+ExtendedGCDOut CalcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
+
+/**
+ * Modulus exponentiation
+ */
+BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke& m);
+
+/**
+ * Modulus division
+ */
+BigSmoke ModuloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);

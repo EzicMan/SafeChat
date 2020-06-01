@@ -329,3 +329,5 @@ private:
 		from.m_iCapaity = 0;
 	}
 };
+
+using ByteVector = Vector<uint8_t>;
