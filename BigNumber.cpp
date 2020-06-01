@@ -252,8 +252,10 @@ String String::substring(long long sindex, long long eindex) const
 		sindex = 0;
 	if (eindex >= sSize)
 		eindex = sSize;
-
-	assert(eindex > sindex);
+	if (eindex == sindex)
+		return String("");
+	if (sindex > eindex)
+		return String("");
 
 	String ret(DummyStruct {});
 	ret.sSize = eindex - sindex;
@@ -540,6 +542,19 @@ String BigSmoke::asHexString() const
 	return ans.reverse();
 }
 
+String BigSmoke::asBinaryString() const
+{
+	String ans = "";
+	BigSmoke num = *this;
+	while (num >= 2) {
+		BigSmoke a = num % 2;
+		ans += a.toString()[0];
+		num /= 2;
+	}
+	ans += num.toString()[0];
+	return ans.reverse();
+}
+
 BigSmoke BigSmoke::abs() const
 {
 	BigSmoke a;
@@ -726,26 +741,45 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	String ans = "";
 	String ost = "";
 	long long i = 0;
+	int r = 0;
 	String this_reversed = number.reverse();
-
-	while (i < number.size()) {
-		ost += this_reversed[i];
-		i++;
-		BigSmoke ost_big(ost);
-		BigSmoke temp = 0;
-		for (long long j = 0; j <= 10; j++) {
-			temp = divBy * j;
-			if (temp > ost_big) {
-				ans += (char)(j - 1 + '0');
-				temp = divBy * (j - 1);
+	BigSmoke ost_big;
+	BigSmoke temp;
+	while (i < size1) {
+		if (ost == "0") {
+			ost = "";
+		}
+		r = ost.size();
+		if (i + size2 - r > size1) {
+			ans += String('0') * (size1 - i);
+			break;
+		}
+		ost += this_reversed.substring(i, i + size2 - r);
+		i += size2 - r;
+		int k;
+		k = size2 - r - 1;
+		ost_big = ost;
+		while (ost_big < divBy) {
+			if (i >= size1) {
+				break;
+			}
+			ost += this_reversed[i];
+			i++;
+			k++;
+			ost_big = ost;
+		}
+		ans += String('0') * k;
+		for (int i = 1; i <= 10; i++) {
+			if (divBy * i > ost_big) {
+				ans += ('0' + i - 1);
+				ost_big -= divBy * (i - 1);
 				break;
 			}
 		}
-		temp = ost_big - temp;
-		ost = temp.number.reverse();
+		ost = ost_big.number.reverse();
 	}
 	number = ans.reverse();
-	if (negative && BigSmoke(ost) != 0) {
+	if (negative && ost_big != 0) {
 		*this -= 1;
 	}
 
@@ -781,40 +815,45 @@ BigSmoke BigSmoke::operator+() const
 
 BigSmoke operator+(const BigSmoke& left, const BigSmoke& right)
 {
-	BigSmoke c("0");
-	c += left;
+	BigSmoke c;
+	c.number = left.number;
+	c.negative = left.negative;
 	c += right;
 	return c;
 }
 
 BigSmoke operator*(const BigSmoke& left, const BigSmoke& right)
 {
-	BigSmoke c = 1;
-	c *= left;
+	BigSmoke c;
+	c.number = left.number;
+	c.negative = left.negative;
 	c *= right;
 	return c;
 }
 
 BigSmoke operator/(const BigSmoke& left, const BigSmoke& right)
 {
-	BigSmoke c = 1;
-	c *= left;
+	BigSmoke c;
+	c.number = left.number;
+	c.negative = left.negative;
 	c /= right;
 	return c;
 }
 
 BigSmoke operator%(const BigSmoke& left, const BigSmoke& right)
 {
-	BigSmoke c = 1;
-	c *= left;
+	BigSmoke c;
+	c.number = left.number;
+	c.negative = left.negative;
 	c %= right;
 	return c;
 }
 
 BigSmoke operator-(const BigSmoke& left, const BigSmoke& right)
 {
-	BigSmoke c = 0;
-	c += left;
+	BigSmoke c;
+	c.number = left.number;
+	c.negative = left.negative;
 	c -= right;
 	return c;
 }
