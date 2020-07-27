@@ -227,3 +227,5 @@ BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke& m);
  * Modulus division
  */
 BigSmoke ModuloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
+
+BigSmoke PowerByModulus(BigSmoke b, BigSmoke k, BigSmoke m);

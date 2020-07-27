@@ -84,6 +84,22 @@ long long Min(long long a, long long b)
 	return a < b ? a : b;
 }
 
+BigSmoke PowerByModulus(BigSmoke b, BigSmoke k, BigSmoke m) {
+    BigSmoke res = 1;
+    while (k != 0)
+        if (k % 2 != 0) {
+            res *= b;
+            res %= m;
+            k--;
+        }
+        else {
+            b *= b;
+            b %= m;
+            k /= 2;
+        }
+    return res;
+}
+
 BigSmoke Power(BigSmoke a, BigSmoke n)
 {
 	BigSmoke res = 1;
