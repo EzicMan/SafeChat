@@ -100,10 +100,10 @@ BigSmoke rsa::encrypt(const BigSmoke& m, const Key& key)
 	if (!key.canBeEncrypted(m))
 		throw std::invalid_argument("message is too big for modulus");
 
-	return ModuloPower(m, key.e, key.n);
+	return powerByModulus(m, key.e, key.n);
 }
 
 BigSmoke rsa::decryptAsNumber(const BigSmoke& encr, const Key& key)
 {
-	return ModuloPower(encr, key.d, key.n);
+	return powerByModulus(encr, key.d, key.n);
 }

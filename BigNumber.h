@@ -193,12 +193,12 @@ public:
 /**
  * Greatest Common Divisor
  */
-BigSmoke CalcGCD(BigSmoke a, BigSmoke b);
+BigSmoke calcGCD(BigSmoke a, BigSmoke b);
 
 /**
  * Least Common Multiple
  */
-BigSmoke CalcLCM(const BigSmoke& a, const BigSmoke& b);
+BigSmoke calcLCM(const BigSmoke& a, const BigSmoke& b);
 
 struct ExtendedGCDOut {
 	/**
@@ -214,18 +214,19 @@ struct ExtendedGCDOut {
 
 /**
  * Greatest Common Divisor
- * @arg m Modulo
+ * @param	m	Modulo
  */
-ExtendedGCDOut CalcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
+ExtendedGCDOut calcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
 
 /**
  * Modulus exponentiation
+ * @param	b	Number
+ * @param	k	(Austin) Power(s)
+ * @param	m	Modulus
  */
-BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke& m);
+BigSmoke powerByModulus(BigSmoke b, BigSmoke k, const BigSmoke& m);
 
 /**
  * Modulus division
  */
-BigSmoke ModuloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
-
-BigSmoke PowerByModulus(BigSmoke b, BigSmoke k, BigSmoke m);
+BigSmoke moduloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);

@@ -27,7 +27,7 @@ BigSmoke BlessRNG::getRandom(int sizeBits)
 {
 	String a = "";
 	for (int i = 0; i < sizeBits; i++) {
-		seed = PowerByModulus(seed, 2, M);
+		seed = powerByModulus(seed, 2, M);
 		a += (seed % 2).toString();
 	}
 	return getNum(a);
@@ -51,7 +51,7 @@ BigSmoke BlessRNG::genSimple(int bits)
 		}
 		if (simple) {
 			for (int i = 2; i <= 13; i++) {
-				if (PowerByModulus(i, a - 1, a) != 1) {
+				if (powerByModulus(i, a - 1, a) != 1) {
 					a += 2;
 					simple = false;
 					break;

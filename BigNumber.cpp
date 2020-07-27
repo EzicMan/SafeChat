@@ -84,23 +84,7 @@ long long Min(long long a, long long b)
 	return a < b ? a : b;
 }
 
-BigSmoke PowerByModulus(BigSmoke b, BigSmoke k, BigSmoke m) {
-    BigSmoke res = 1;
-    while (k != 0)
-        if (k % 2 != 0) {
-            res *= b;
-            res %= m;
-            k--;
-        }
-        else {
-            b *= b;
-            b %= m;
-            k /= 2;
-        }
-    return res;
-}
-
-BigSmoke Power(BigSmoke a, BigSmoke n)
+static BigSmoke Power(BigSmoke a, BigSmoke n)
 {
 	BigSmoke res = 1;
 	while (n != 0)
@@ -771,7 +755,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 	String ans = "";
 	String ost = "";
 	long long i = 0;
-	int r = 0;
+	long long r = 0;
 	String this_reversed = number.reverse();
 	BigSmoke ost_big;
 	BigSmoke temp;
@@ -786,7 +770,7 @@ BigSmoke& BigSmoke::operator/=(const BigSmoke& right)
 		}
 		ost += this_reversed.substring(i, i + size2 - r);
 		i += size2 - r;
-		int k;
+		long long k;
 		k = size2 - r - 1;
 		ost_big = ost;
 		while (ost_big < divBy) {
@@ -973,7 +957,7 @@ std::ostream& operator<<(std::ostream& os, const BigSmoke& r)
 	return os;
 }
 
-BigSmoke CalcGCD(BigSmoke a, BigSmoke b)
+BigSmoke calcGCD(BigSmoke a, BigSmoke b)
 {
 	while (b != 0) {
 		a %= b;
@@ -986,49 +970,48 @@ BigSmoke CalcGCD(BigSmoke a, BigSmoke b)
 	return a;
 }
 
-BigSmoke CalcLCM(const BigSmoke& a, const BigSmoke& b)
+BigSmoke calcLCM(const BigSmoke& a, const BigSmoke& b)
 {
-	return a / CalcGCD(a, b) * b;
+	return a / calcGCD(a, b) * b;
 }
 
-ExtendedGCDOut CalcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
+ExtendedGCDOut calcExtendedGCD(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
 {
 	if (a == 0)
 		return ExtendedGCDOut { 0, 1, b };
 
-	ExtendedGCDOut hren = CalcExtendedGCD(b % a, a, m);
+	ExtendedGCDOut hren = calcExtendedGCD(b % a, a, m);
 
 	ExtendedGCDOut ret = ExtendedGCDOut {
-		(hren.y - (ModuloDiv(b, a, m) * hren.x) % m) % m,
+		(hren.y - (moduloDiv(b, a, m) * hren.x) % m) % m,
 		hren.x % m,
 		hren.gcd
 	};
 	return ret;
 }
 
-BigSmoke ModuloPower(BigSmoke a, BigSmoke n, const BigSmoke& m)
+BigSmoke powerByModulus(BigSmoke b, BigSmoke k, const BigSmoke& m)
 {
-	a %= m;
-	n %= m;
-
 	BigSmoke res = 1;
-	while (n != 0)
-		if (n % 2 != 0) {
-			res = (res * a) % m;
-			--n;
+	while (k != 0)
+		if (k % 2 != 0) {
+			res *= b;
+			res %= m;
+			--k;
 		} else {
-			a = (a * a) % m;
-			n /= 2;
+			b *= b;
+			b %= m;
+			k /= 2;
 		}
 	return res;
 }
 
-static BigSmoke inverse_element(const BigSmoke& x, const BigSmoke& m)
+static BigSmoke inverseElement(const BigSmoke& x, const BigSmoke& m)
 {
-	return ModuloPower(x, m - 2, m);
+	return powerByModulus(x, m - 2, m);
 }
 
-BigSmoke ModuloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
+BigSmoke moduloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m)
 {
-	return a * inverse_element(b, m) % m;
+	return a * inverseElement(b, m) % m;
 }
