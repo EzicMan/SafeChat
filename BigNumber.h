@@ -34,6 +34,9 @@ public:
 	char* begin(); // returns iterator to beginning of the string
 	char* end(); // returns iterator to the end of the string
 
+	int findFirst(char symbol, int indexFrom); // finds first occurence of symbol from indexFrom inclusive or returns -1
+	int countSymbol(char symbol, int indexFrom); // counts all occurences of symbol from indexFrom inclusive
+	String replaceAll(char oldSymbol, char newSymbol, int indexFrom); // replaces all symbols oldSymbol to newSymbol from indexFrom inclusive
 	String substring(long long sindex, long long eindex) const; // gets the substring [sindex;eindex)
 	String reverse() const; // reverses the string
 	String toLower() const; // returns string with all lower symbols
@@ -230,3 +233,5 @@ BigSmoke powerByModulus(BigSmoke b, BigSmoke k, const BigSmoke& m);
  * Modulus division
  */
 BigSmoke moduloDiv(const BigSmoke& a, const BigSmoke& b, const BigSmoke& m);
+
+BigSmoke Power(BigSmoke a, BigSmoke n);

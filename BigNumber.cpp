@@ -84,7 +84,7 @@ long long Min(long long a, long long b)
 	return a < b ? a : b;
 }
 
-static BigSmoke Power(BigSmoke a, BigSmoke n)
+BigSmoke Power(BigSmoke a, BigSmoke n)
 {
 	BigSmoke res = 1;
 	while (n != 0)
@@ -244,6 +244,50 @@ String& String::operator=(String&& rhs) noexcept
 	rhs.m_iCapacity = -1;
 
 	return *this;
+}
+
+int String::findFirst(char symbol, int indexFrom) {
+	if (indexFrom > sSize) {
+		throw std::out_of_range("Invalid index");
+	} else if (indexFrom < 0) {
+		throw std::out_of_range("Invalid index");
+	}
+	for (int i = indexFrom; i < sSize; i++) {
+		if (string[i] == symbol) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+int String::countSymbol(char symbol, int indexFrom) {
+	if (indexFrom > sSize) {
+		throw std::out_of_range("Invalid index");
+	} else if (indexFrom < 0) {
+		throw std::out_of_range("Invalid index");
+	}
+	int ans = 0;
+	for (int i = indexFrom; i < sSize; i++) {
+		if (string[i] == symbol) {
+			ans++;	
+		}	
+	}
+	return ans;
+}
+
+String String::replaceAll(char oldSymbol, char newSymbol, int indexFrom) {
+	if (indexFrom > sSize) {
+		throw std::out_of_range("Invalid index");
+	} else if (indexFrom < 0) {
+		throw std::out_of_range("Invalid index");
+	}
+	String changedString = *this;
+	for (int i = indexFrom; i < sSize; i++) {
+		if (changedString[i] == oldSymbol) {
+			changedString[i] = newSymbol;
+		}
+	}
+	return changedString;
 }
 
 String String::substring(long long sindex, long long eindex) const
@@ -604,12 +648,12 @@ BigSmoke& BigSmoke::operator+=(const BigSmoke& right)
 	long long size1 = this->size();
 	long long size2 = right.size();
 	if (right.negative && !negative) {
-		BigSmoke ans = (*this - BigSmoke(right.number.reverse()));
+		BigSmoke ans = (*this - right.abs());
 		number = ans.number;
 		negative = ans.negative;
 		return *this;
 	} else if (!right.negative && negative) {
-		BigSmoke ans = (right - BigSmoke(number.reverse()));
+		BigSmoke ans = (right - abs());
 		number = ans.number;
 		negative = ans.negative;
 		return *this;
