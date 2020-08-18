@@ -31,10 +31,10 @@ BigDouble::BigDouble(BigSmoke num)
 	doublePart = 0;
 }
 
-BigDouble::BigDouble(String num) 
+BigDouble::BigDouble(String num)
 {
 	num = num.replaceAll(',', '.', 0);
-	if (num.countSymbol('.',0) > 1) {
+	if (num.countSymbol('.', 0) > 1) {
 		throw std::invalid_argument("Invalid input string: not a number");
 	}
 	long long i = num.findFirst('.', 0);
@@ -55,10 +55,10 @@ BigDouble::BigDouble(String num)
 BigDouble::BigDouble(const char* num)
     : BigDouble(String(num))
 {
-
 }
 
-BigDouble& BigDouble::operator+=(const BigDouble& right) {
+BigDouble& BigDouble::operator+=(const BigDouble& right)
+{
 	int prec = Max(precision, right.precision);
 	wholePart *= Power(10, prec);
 	String doubt1;
@@ -111,7 +111,7 @@ BigDouble& BigDouble::operator/=(const BigDouble& right)
 		neg = true;
 	}
 	wholePart = wholePart.abs();
-	wholePart *= Power(10,prec);
+	wholePart *= Power(10, prec);
 	wholePart += doublePart.abs().toString().reverse() + String('0') * (prec - doublePart.size());
 	BigSmoke a = right.wholePart.abs() * Power(10, prec) + (right.doublePart.abs().toString().reverse() + String('0') * (prec - right.doublePart.size()));
 	wholePart *= Power(10, precision);
@@ -131,14 +131,16 @@ std::ostream& operator<<(std::ostream& os, const BigDouble& r)
 	return os;
 }
 
-void BigDouble::setPrecision(int precision) {
+void BigDouble::setPrecision(int precision)
+{
 	this->precision = precision;
 	if (doublePart.size() > precision) {
 		doublePart = doublePart.toString().substring(doublePart.size() - precision, doublePart.size());
 	}
 }
 
-BigDouble operator+(const BigDouble& left, const BigDouble& right) {
+BigDouble operator+(const BigDouble& left, const BigDouble& right)
+{
 	BigDouble c;
 	c.wholePart = left.wholePart;
 	c.doublePart = left.doublePart;
@@ -186,7 +188,7 @@ BigDouble& BigDouble::operator*=(const BigDouble& right)
 	a *= b;
 	wholePart = a;
 	doublePart = 0;
-	*this /= Power(10, precision+precision);
+	*this /= Power(10, precision + precision);
 	return *this;
 }
 
@@ -200,7 +202,8 @@ BigDouble operator*(const BigDouble& left, const BigDouble& right)
 	return c;
 }
 
-BigDouble BigDouble::powerBy(BigSmoke n) {
+BigDouble BigDouble::powerBy(BigSmoke n)
+{
 	BigDouble res = BigSmoke(1);
 	BigDouble a = *this;
 	while (n != 0)
@@ -222,7 +225,7 @@ bool BigDouble::operator==(const BigDouble& right) const
 	return false;
 }
 
-bool BigDouble::operator!=(const BigDouble&right) const
+bool BigDouble::operator!=(const BigDouble& right) const
 {
 	if (*this == right) {
 		return false;
@@ -230,7 +233,8 @@ bool BigDouble::operator!=(const BigDouble&right) const
 	return true;
 }
 
-bool BigDouble::operator>(const BigDouble& right) const {
+bool BigDouble::operator>(const BigDouble& right) const
+{
 	if (wholePart > right.wholePart) {
 		return true;
 	}
@@ -240,28 +244,32 @@ bool BigDouble::operator>(const BigDouble& right) const {
 	return false;
 }
 
-bool BigDouble::operator<(const BigDouble& right) const {
+bool BigDouble::operator<(const BigDouble& right) const
+{
 	if (!(*this > right)) {
 		return true;
 	}
 	return false;
 }
 
-bool BigDouble::operator>=(const BigDouble& right) const {
+bool BigDouble::operator>=(const BigDouble& right) const
+{
 	if (*this > right || *this == right) {
 		return true;
 	}
 	return false;
 }
 
-bool BigDouble::operator<=(const BigDouble& right) const {
+bool BigDouble::operator<=(const BigDouble& right) const
+{
 	if (*this < right || *this == right) {
 		return true;
 	}
 	return false;
 }
 
-BigDouble BigDouble::operator-() const {
+BigDouble BigDouble::operator-() const
+{
 	BigDouble a;
 	a.wholePart = wholePart;
 	a.doublePart = doublePart;
@@ -269,6 +277,17 @@ BigDouble BigDouble::operator-() const {
 	return a;
 }
 
-BigDouble BigDouble::operator+() const {
+BigDouble BigDouble::operator+() const
+{
 	return *this;
+}
+
+String BigDouble::toString()
+{
+	String ans;
+	if (wholePart.isNegative()) {
+		ans += '-';
+	}
+	ans += wholePart.abs().toString() + String('.') + doublePart.abs().toString().reverse();
+	return ans;
 }

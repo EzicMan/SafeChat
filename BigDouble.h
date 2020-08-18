@@ -15,10 +15,12 @@ public:
 	BigDouble(const char* num);
 
 	void setPrecision(int precision);
-	int getPrecision() {
+	int getPrecision()
+	{
 		return precision;
 	}
 	BigDouble powerBy(BigSmoke n);
+	String toString();
 
 	friend BigDouble operator+(const BigDouble& left, const BigDouble& right);
 	BigDouble& operator+=(const BigDouble& right);

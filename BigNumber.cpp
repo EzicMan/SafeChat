@@ -246,7 +246,8 @@ String& String::operator=(String&& rhs) noexcept
 	return *this;
 }
 
-int String::findFirst(char symbol, int indexFrom) {
+int String::findFirst(char symbol, int indexFrom)
+{
 	if (indexFrom > sSize) {
 		throw std::out_of_range("Invalid index");
 	} else if (indexFrom < 0) {
@@ -260,7 +261,8 @@ int String::findFirst(char symbol, int indexFrom) {
 	return -1;
 }
 
-int String::countSymbol(char symbol, int indexFrom) {
+int String::countSymbol(char symbol, int indexFrom)
+{
 	if (indexFrom > sSize) {
 		throw std::out_of_range("Invalid index");
 	} else if (indexFrom < 0) {
@@ -269,13 +271,14 @@ int String::countSymbol(char symbol, int indexFrom) {
 	int ans = 0;
 	for (int i = indexFrom; i < sSize; i++) {
 		if (string[i] == symbol) {
-			ans++;	
-		}	
+			ans++;
+		}
 	}
 	return ans;
 }
 
-String String::replaceAll(char oldSymbol, char newSymbol, int indexFrom) {
+String String::replaceAll(char oldSymbol, char newSymbol, int indexFrom)
+{
 	if (indexFrom > sSize) {
 		throw std::out_of_range("Invalid index");
 	} else if (indexFrom < 0) {
